@@ -84,7 +84,7 @@ mv /etc/nginx/conf.d/vps.conf /etc/nginx/conf.d/vps.conf.backup
 wget -O /etc/nginx/nginx.conf "https://raw.githubusercontent.com/johndesu090/AutoScriptDebianStretch/master/Files/Panel/nginx.conf" 
 wget -O /etc/nginx/conf.d/vps.conf "https://raw.githubusercontent.com/johndesu090/AutoScriptDebianStretch/master/Files/Panel/vps.conf" 
 echo "cgi.fix_pathinfo=0" >> /etc/php/7.0/fpm/php.ini 
-sed -i 's/listen = \/run\/php7.0-fpm.sock/listen = 127.0.0.1:9000/g' /etc/php/7.0/fpm/pool.d/www.conf
+sed -i 's/listen = \/run\/php\/php7.0-fpm.sock/listen = 127.0.0.1:9000/g' /etc/php/7.0/fpm/pool.d/www.conf
 
 useradd -m vps
 mkdir -p /home/vps/public_html
@@ -96,7 +96,6 @@ phpinfo();
 END
 chown -R www-data:www-data /home/vps/public_html
 chmod -R g+rw /home/vps/public_html
-sed -i 's/listen = \/run\/php7.0-fpm.sock/listen = 127.0.0.1:9000/g' /etc/php/7.0/fpm/pool.d/www.conf
 service php7.0-fpm restart
 service nginx restart
 
