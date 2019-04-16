@@ -43,7 +43,6 @@ read -n1 -r -p "Press any key to continue..."
 
 #apt-get update
 apt-get update -y
-apt-get remove -y --purge php7.0*
 apt-get install build-essential expect -y
 apt-get install -y mysql-server
 
