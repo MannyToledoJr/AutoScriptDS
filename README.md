@@ -31,6 +31,12 @@ wget https://raw.githubusercontent.com/johndesu090/AutoScriptDebianStretch/maste
 wget https://raw.githubusercontent.com/johndesu090/AutoScriptDebianStretch/master/DebianStretchV && chmod +x DebianStretchV && ./DebianStretchV
 </p>
 
+<h3 align="center">Installation VPN Panel</h3>
+
+<p align="center">
+wget https://raw.githubusercontent.com/johndesu090/AutoScriptDebianStretch/master/PanelDeb9 && chmod +x PanelDeb9 && ./PanelDeb9
+</p>
+
 
 <h3 align="center">Additional Info</h3>
 <p align="center">
