@@ -43,6 +43,7 @@ read -n1 -r -p "Press any key to continue..."
 
 #apt-get update
 apt-get update -y
+apt-get remove -y --purge php7.0*
 apt-get install build-essential expect -y
 apt-get install -y mysql-server
 
@@ -92,9 +93,9 @@ service nginx restart
 
 apt-get -y install zip unzip
 cd /home/vps/public_html
-wget $source/OCS.zip
-unzip OCS.zip
-rm -f OCS.zip
+wget https://github.com/johndesu090/AutoScriptDebianStretch/raw/master/Files/Panel/Panel.zip
+unzip Panel.zip
+rm -f Panel.zip
 chown -R www-data:www-data /home/vps/public_html
 chmod -R g+rw /home/vps/public_html
 
@@ -115,7 +116,7 @@ chmod 777 /home/vps/public_html/config/route.php
 apt-get -y --force-yes -f install libxml-parser-perl
 
 clear
-echo "Open Browser, access http://$MYIP:85/ and complete the data as below!"
+echo "Open Browser, access http://$MYIP/ and complete the data as below!"
 echo "Database:"
 echo "- Database Host: localhost"
 echo "- Database Name: $DatabaseName"
@@ -156,7 +157,7 @@ chmod 644 /home/vps/public_html/config/route.php
 # info
 clear
 echo "=======================================================" | tee -a log-install.txt
-echo "Please login Reseller Panel at http://$MYIP:85" | tee -a log-install.txt
+echo "Please login Reseller Panel at http://$MYIP" | tee -a log-install.txt
 echo "" | tee -a log-install.txt
 echo "Auto Script Installer OCS Panels Mod by Clrkz"  | tee -a log-install.txt
 echo "             (https://johnfordtv.me - fb.com/johndesu090)           "  | tee -a log-install.txt
