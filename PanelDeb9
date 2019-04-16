@@ -23,7 +23,10 @@ cd
 
 MYIP=$(wget -qO- ipv4.icanhazip.com);
 
-#https://github.com/adenvt/OcsPanels/wiki/tutor-debian
+#Purge PHP7.0
+#apt-get remove -y --purge php7.0*
+
+#Start Database Question
 
 clear
 echo "=======Debian9 OCS Panel Script by FordSenpai========"
@@ -41,7 +44,7 @@ echo ""
 echo "Okay, that's all I need. We are ready to setup your OCS Panels now"
 read -n1 -r -p "Press any key to continue..."
 
-#apt-get update
+#Setting UP MariaDB mysql
 apt-get update -y
 apt-get install build-essential expect -y
 apt-get install -y mysql-server
@@ -71,23 +74,29 @@ echo "$so1"
 chown -R mysql:mysql /var/lib/mysql/
 chmod -R 755 /var/lib/mysql/
 
-apt-get -y install nginx php7.0 php7.0-fpm php7.0-cli php7.0-mysql php7.0-mcrypt
+
+#Setting UP Nginx and PHP
+apt-get -y install nginx php-fpm php-cli php-mysql php-mcrypt
 rm /etc/nginx/sites-enabled/default
 rm /etc/nginx/sites-available/default
 mv /etc/nginx/nginx.conf /etc/nginx/nginx.conf.backup 
 mv /etc/nginx/conf.d/vps.conf /etc/nginx/conf.d/vps.conf.backup 
 wget -O /etc/nginx/nginx.conf "https://raw.githubusercontent.com/johndesu090/AutoScriptDebianStretch/master/Files/Panel/nginx.conf" 
 wget -O /etc/nginx/conf.d/vps.conf "https://raw.githubusercontent.com/johndesu090/AutoScriptDebianStretch/master/Files/Panel/vps.conf" 
-sed -i 's/cgi.fix_pathinfo=1/cgi.fix_pathinfo=0/g' /etc/php/7.0/fpm/php.ini 
-sed -i 's/listen = \/var\/run\/php7.0-fpm.sock/listen = 127.0.0.1:9000/g' /etc/php/7.0/fpm/pool.d/www.conf
+echo "cgi.fix_pathinfo=0" >> /etc/php/7.0/fpm/php.ini 
+sed -i 's/listen = \/run\/php7.0-fpm.sock/listen = 127.0.0.1:9000/g' /etc/php/7.0/fpm/pool.d/www.conf
 
 useradd -m vps
 mkdir -p /home/vps/public_html
 rm /home/vps/public_html/index.html
-echo "<?php phpinfo() ?>" > /home/vps/public_html/info.php
+cat > /home/vps/public_html/info.php <<-END
+<?php
+phpinfo();
+?>
+END
 chown -R www-data:www-data /home/vps/public_html
-chmod -R g+rw /home/vps/public_html service php5-fpm restart
-service php5-fpm restart
+chmod -R g+rw /home/vps/public_html
+service php7.0-fpm restart
 service nginx restart
 
 apt-get -y install zip unzip
@@ -158,8 +167,8 @@ clear
 echo "=======================================================" | tee -a log-install.txt
 echo "Please login Reseller Panel at http://$MYIP" | tee -a log-install.txt
 echo "" | tee -a log-install.txt
-echo "Auto Script Installer OCS Panels Mod by Clrkz"  | tee -a log-install.txt
-echo "             (https://johnfordtv.me - fb.com/johndesu090)           "  | tee -a log-install.txt
+echo "        Auto Script Installer OCS Panel"  | tee -a log-install.txt
+echo "(https://johnfordtv.me - fb.com/johndesu090)"  | tee -a log-install.txt
 echo "" | tee -a log-install.txt
 echo "Thanks " | tee -a log-install.txt
 echo "" | tee -a log-install.txt
