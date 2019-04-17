@@ -189,11 +189,13 @@ script-security 2
 cipher none
 auth none
 http-proxy $MYIP 3355
-http-proxy-option CUSTOM-HEADER CONNECT HTTP/1.1
+http-proxy-option CUSTOM-HEADER CONNECT HTTP/1.0
 http-proxy-option CUSTOM-HEADER Host www.viber.com
+http-proxy-option CUSTOM-HEADER X-Online-Host www.viber.com
 http-proxy-option CUSTOM-HEADER X-Forward-Host www.viber.com
-http-proxy-option CUSTOM-HEADER Connection: Keep-Alive
-http-proxy-option CUSTOM-HEADER Proxy-Connection: keep-alive
+http-proxy-option CUSTOM-HEADER Connection keep-alive
+http-proxy-option CUSTOM-HEADER Proxy-Connection keep-alive
+http-proxy-retry
 END
 echo '<ca>' >> /home/vps/public_html/client.ovpn
 cat /etc/openvpn/ca.crt >> /home/vps/public_html/client.ovpn
