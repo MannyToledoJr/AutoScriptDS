@@ -55,6 +55,21 @@ Recommended OS: Debian 9 Stretch x64
   <p align="center">
   <img src="https://github.com/johndesu090/AutoScriptDebianStretch/raw/master/Snapshots/4.png">
    </p>
+   
+   <h3 align="center">ShadowsocksR (Optional)</h3>
+   <p align="center">
+   Download: https://github.com/shadowsocksr-backup/shadowsocksr-android/releases
+  
+   Configuration file path: /etc/shadowsocks.json 
+   
+   Log file path: /var/log/shadowsocks.log 
+   
+   Installation directory: /usr/local/shadowsocks
+   
+   
+   Installation:
+   
+   xxxx
 
 Facebook Support: https://www.facebook.com/johndesu090
    </p>
