@@ -76,6 +76,14 @@ wget --no-check-certificate https://raw.githubusercontent.com/johndesu090/AutoSc
 chmod +x ShadowR.sh
 ./ShadowR.sh 2>&1 | tee shadowsocksR.log
 ```
+   Commands:
+```html
+Use the command:
+Start: /etc/init.d/shadowsocks start 
+Stop: /etc/init.d/shadowsocks stop 
+Restart: /etc/init.d/shadowsocks restart 
+Status: /etc/init.d/shadowsocks status
+```
 
 Facebook Support: https://www.facebook.com/johndesu090
    </p>
