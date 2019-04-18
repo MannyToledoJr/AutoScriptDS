@@ -78,7 +78,6 @@ chmod +x ShadowR.sh
 ```
    Commands:
 ```html
-Use the command:
 Start: /etc/init.d/shadowsocks start 
 Stop: /etc/init.d/shadowsocks stop 
 Restart: /etc/init.d/shadowsocks restart 
