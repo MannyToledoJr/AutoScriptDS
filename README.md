@@ -21,21 +21,21 @@
 
 <h3 align="center">Installation (DigitalOcean)</h3>
 
-<p align="center">
+  ```html
 wget https://raw.githubusercontent.com/johndesu090/AutoScriptDebianStretch/master/DebianStretch && chmod +x DebianStretch && ./DebianStretch
-</p>
+  ```
 
 <h3 align="center">Installation (VULTR)</h3>
 
-<p align="center">
+  ```html
 wget https://raw.githubusercontent.com/johndesu090/AutoScriptDebianStretch/master/DebianStretchV && chmod +x DebianStretchV && ./DebianStretchV
-</p>
+  ```
 
-<h3 align="center">Installation VPN Panel</h3>
+<h3 align="center">Installation LEMP Stack Webserver</h3>
 
-<p align="center">
-wget https://raw.githubusercontent.com/johndesu090/AutoScriptDebianStretch/master/PanelDeb9 && chmod +x PanelDeb9 && ./PanelDeb9
-</p>
+  ```html
+wget https://raw.githubusercontent.com/johndesu090/AutoScriptDebianStretch/master/LEMP7 && chmod +x LEMP7 && ./LEMP7
+  ```
 
 
 <h3 align="center">Additional Info</h3>
@@ -57,8 +57,10 @@ Recommended OS: Debian 9 Stretch x64
    </p>
    
    <h3 align="center">ShadowsocksR (Optional)</h3>
-   <p align="center">
-   Download: https://github.com/shadowsocksr-backup/shadowsocksr-android/releases
+   <p align="left">
+   Download (Android): https://github.com/shadowsocksr-backup/shadowsocksr-android/releases
+  
+   Download (Windows): https://github.com/shadowsocksr-backup/shadowsocksr-csharp/releases
   
    Configuration file path: /etc/shadowsocks.json 
    
@@ -69,7 +71,11 @@ Recommended OS: Debian 9 Stretch x64
    
    Installation:
    
-   xxxx
+```html
+wget --no-check-certificate https://raw.githubusercontent.com/johndesu090/AutoScriptDebianStretch/master/ShadowR.sh
+chmod +x ShadowR.sh
+./ShadowR.sh 2>&1 | tee shadowsocksR.log
+```
 
 Facebook Support: https://www.facebook.com/johndesu090
    </p>
