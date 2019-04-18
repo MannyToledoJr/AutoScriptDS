@@ -58,7 +58,14 @@ Recommended OS: Debian 9 Stretch x64
    
    <h3 align="center">ShadowsocksR (Optional)</h3>
    <p align="center">
-   ####to be added next update####
+   Download: https://github.com/shadowsocksr-backup/shadowsocksr-android/releases
+  
+   Configuration file path: /etc/shadowsocks.json 
+   Log file path: /var/log/shadowsocks.log 
+   Installation directory: /usr/local/shadowsocks
+   
+   Installation:
+   #####
 
 Facebook Support: https://www.facebook.com/johndesu090
    </p>
