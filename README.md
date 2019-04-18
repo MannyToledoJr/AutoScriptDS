@@ -22,19 +22,25 @@
 <h3 align="center">Installation (DigitalOcean)</h3>
 
 <p align="center">
+  ```html
 wget https://raw.githubusercontent.com/johndesu090/AutoScriptDebianStretch/master/DebianStretch && chmod +x DebianStretch && ./DebianStretch
+  ```
 </p>
 
 <h3 align="center">Installation (VULTR)</h3>
 
 <p align="center">
+  ```html
 wget https://raw.githubusercontent.com/johndesu090/AutoScriptDebianStretch/master/DebianStretchV && chmod +x DebianStretchV && ./DebianStretchV
+  ```
 </p>
 
-<h3 align="center">Installation VPN Panel</h3>
+<h3 align="center">Installation LEMP Stack Webserver</h3>
 
 <p align="center">
-wget https://raw.githubusercontent.com/johndesu090/AutoScriptDebianStretch/master/PanelDeb9 && chmod +x PanelDeb9 && ./PanelDeb9
+  ```html
+wget https://raw.githubusercontent.com/johndesu090/AutoScriptDebianStretch/master/LEMP7 && chmod +x LEMP7 && ./LEMP7
+  ```
 </p>
 
 
