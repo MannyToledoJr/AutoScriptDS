@@ -58,7 +58,9 @@ Recommended OS: Debian 9 Stretch x64
    
    <h3 align="center">ShadowsocksR (Optional)</h3>
    <p align="center">
-   Download: https://github.com/shadowsocksr-backup/shadowsocksr-android/releases
+   Download (Android): https://github.com/shadowsocksr-backup/shadowsocksr-android/releases
+  
+   Download (Windows): https://github.com/shadowsocksr-backup/shadowsocksr-csharp/releases
   
    Configuration file path: /etc/shadowsocks.json 
    
