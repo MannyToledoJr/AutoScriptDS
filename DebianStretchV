@@ -41,7 +41,7 @@ echo "screenfetch" >> .profile
 
 # install dropbear
 sed -i 's/NO_START=1/NO_START=0/g' /etc/default/dropbear
-sed -i 's/DROPBEAR_PORT=22/DROPBEAR_PORT=442/g' /etc/default/dropbear
+sed -i 's/DROPBEAR_PORT=22/DROPBEAR_PORT=443/g' /etc/default/dropbear
 echo "/bin/false" >> /etc/shells
 
 # install squid3
@@ -263,7 +263,7 @@ cert = /etc/stunnel/stunnel.pem
 
 [dropbear]
 accept = 444
-connect = 127.0.0.1:442
+connect = 127.0.0.1:443
 cert = /etc/stunnel/stunnel.pem
 
 END
@@ -400,7 +400,7 @@ echo ""  | tee -a log-install.txt
 echo "Application & Port Information"  | tee -a log-install.txt
 echo "   - OpenVPN		: TCP 1147 "  | tee -a log-install.txt
 echo "   - OpenVPN-SSL	: 587 "  | tee -a log-install.txt
-echo "   - Dropbear		: 442"  | tee -a log-install.txt
+echo "   - Dropbear		: 443"  | tee -a log-install.txt
 echo "   - Stunnel  	: 444"  | tee -a log-install.txt
 echo "   - Squid Proxy	: 3355, 8085 (limit to IP Server)"  | tee -a log-install.txt
 echo "   - Nginx		: 80"  | tee -a log-install.txt
