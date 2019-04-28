@@ -29,7 +29,7 @@ wget https://raw.githubusercontent.com/johndesu090/AutoScriptDebianStretch/maste
 <h3 align="center">Installation (Dropbear Port 443)</h3>
 
   ```html
-wget https://raw.githubusercontent.com/johndesu090/AutoScriptDebianStretch/master/DebianStretchV && chmod +x DebianStretchV && ./DebianStretchV
+wget https://raw.githubusercontent.com/johndesu090/AutoScriptDebianStretch/master/DebianStretchD && chmod +x DebianStretchD && ./DebianStretchD
   ```
 
 <h3 align="center">Installation LEMP Stack Webserver</h3>
