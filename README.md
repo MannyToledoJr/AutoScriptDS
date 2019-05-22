@@ -1,6 +1,6 @@
-<h1 align="center"> VPN AutoScript Debian Stretch<img src="https://img.shields.io/badge/Version-1.3-blue.svg"></h1>
+<h1 align="center"> VPN AutoScript Debian Stretch<img src="https://img.shields.io/badge/Version-1.7-blue.svg"></h1>
 
-<p align="center">VPS AutoScript is made by FordSenpai to minimize the time consumed and user involvement in setting up your VPS</p>
+<p align="center">VPN AutoScript is made by FordSenpai to minimize the time consumed and user involvement in setting up your VPS</p>
 <h3 align="center">Supported Linux Distribution</h3>
 <p align="center">
   <a><img src="https://img.shields.io/badge/Support-Debian%209-red.svg"></a>
@@ -20,16 +20,16 @@
   <a><img src="https://img.shields.io/badge/Commands-menu-yellow.svg"></a>
  </p>
 
-<h3 align="center">Installation (DigitalOcean)</h3>
+<h3 align="center">Installation (DigitalOcean, VULTR & MNX Solutions)</h3>
 
   ```html
 wget https://raw.githubusercontent.com/johndesu090/AutoScriptDebianStretch/master/DebianStretch && chmod +x DebianStretch && ./DebianStretch
   ```
 
-<h3 align="center">Installation (VULTR)</h3>
+<h3 align="center">Installation (Dropbear Port 443)</h3>
 
   ```html
-wget https://raw.githubusercontent.com/johndesu090/AutoScriptDebianStretch/master/DebianStretchV && chmod +x DebianStretchV && ./DebianStretchV
+wget https://raw.githubusercontent.com/johndesu090/AutoScriptDebianStretch/master/DebianStretchD && chmod +x DebianStretchD && ./DebianStretchD
   ```
 
 <h3 align="center">Installation LEMP Stack Webserver</h3>
