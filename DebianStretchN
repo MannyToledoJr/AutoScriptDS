@@ -311,9 +311,9 @@ http-proxy-option CUSTOM-HEADER Proxy-Connection keep-alive
 http-proxy-retry
 
 END
-echo '<ca>' >> /home/vps/public_html/fixplan.ovpn
-cat /etc/openvpn/ca.crt >> /home/vps/public_html/fixplan.ovpn
-echo '</ca>' >> /home/vps/public_html/fixplan.ovpn
+echo '<ca>' >> /home/vps/public_html/gowatchplay.ovpn
+cat /etc/openvpn/ca.crt >> /home/vps/public_html/gowatchplay.ovpn
+echo '</ca>' >> /home/vps/public_html/gowatchplay.ovpn
 
 cat > /home/vps/public_html/OpenVPN-SSL.ovpn <<-END
 
