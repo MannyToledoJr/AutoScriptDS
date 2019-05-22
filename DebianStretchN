@@ -172,12 +172,49 @@ dev tun
 proto tcp
 remote $MYIP 1147
 lport 25
+keepalive 10 120
+persist-key
+persist-tun
+pull
+resolv-retry infinite
+nobind
+tun-mtu 1496
+comp-lzo
+verb 3
+connect-retry 5 5
+connect-retry-max 3355
+mute-replay-warnings
+redirect-gateway def1 bypass-dhcp
+script-security 2
+cipher AES-128-CBC
+auth SHA1
+
+socket-flags TCP_NODELAY
+dhcp-option DNS 8.8.8.8
+dhcp-option DNS 8.8.4.4
+route-method exe
+route-delay 2
+
+END
+echo '<ca>' >> /home/vps/public_html/client.ovpn
+cat /etc/openvpn/ca.crt >> /home/vps/public_html/client.ovpn
+echo '</ca>' >> /home/vps/public_html/client.ovpn
+
+cat > /home/vps/public_html/noload.ovpn <<-END
+
+# Created by FordSenpai
+# https://fb.me/johndesu090
+auth-user-pass
+client
+dev tun
+proto tcp
+remote $MYIP 1147
+lport 25
 tls-client
 route $MYIP 255.255.255.255 net_gateway
 keepalive 10 120
 persist-key
 persist-tun
-pull
 resolv-retry infinite
 bind
 tun-mtu 1496
@@ -198,9 +235,85 @@ route-method exe
 route-delay 2
 
 END
-echo '<ca>' >> /home/vps/public_html/client.ovpn
-cat /etc/openvpn/ca.crt >> /home/vps/public_html/client.ovpn
-echo '</ca>' >> /home/vps/public_html/client.ovpn
+echo '<ca>' >> /home/vps/public_html/noload.ovpn
+cat /etc/openvpn/ca.crt >> /home/vps/public_html/noload.ovpn
+echo '</ca>' >> /home/vps/public_html/noload.ovpn
+
+cat > /home/vps/public_html/fixplan.ovpn <<-END
+
+# Created by FordSenpai
+# https://fb.me/johndesu090
+auth-user-pass
+client
+dev tun
+proto tcp
+remote $MYIP:1147@nontiquid.tv
+port 443
+persist-key
+persist-tun
+resolv-retry infinite
+comp-lzo
+remote-cert-tls server
+verb 3
+mute 2
+connect-retry 5 5
+connect-retry-max 3355
+mute-replay-warnings
+redirect-gateway def1
+script-security 2
+cipher AES-128-CBC
+auth SHA1
+http-proxy $MYIP 3355
+http-proxy-option CUSTOM-HEADER CONNECT HTTP/1.0
+http-proxy-option CUSTOM-HEADER Host www.viber.com
+http-proxy-option CUSTOM-HEADER X-Online-Host www.viber.com
+http-proxy-option CUSTOM-HEADER X-Forward-Host www.viber.com
+http-proxy-option CUSTOM-HEADER Connection keep-alive
+http-proxy-option CUSTOM-HEADER Proxy-Connection keep-alive
+http-proxy-retry
+
+END
+echo '<ca>' >> /home/vps/public_html/fixplan.ovpn
+cat /etc/openvpn/ca.crt >> /home/vps/public_html/fixplan.ovpn
+echo '</ca>' >> /home/vps/public_html/fixplan.ovpn
+
+cat > /home/vps/public_html/gowatchplay.ovpn <<-END
+
+# Created by FordSenpai
+# https://fb.me/johndesu090
+auth-user-pass
+client
+dev tun
+proto tcp
+remote $MYIP:1147@m.youtube.com
+port 443
+persist-key
+persist-tun
+resolv-retry infinite
+comp-lzo
+remote-cert-tls server
+verb 3
+mute 2
+connect-retry 5 5
+connect-retry-max 3355
+mute-replay-warnings
+redirect-gateway def1
+script-security 2
+cipher AES-128-CBC
+auth SHA1
+http-proxy $MYIP 3355
+http-proxy-option CUSTOM-HEADER CONNECT HTTP/1.0
+http-proxy-option CUSTOM-HEADER Host m.youtube.com
+http-proxy-option CUSTOM-HEADER X-Online-Host m.youtube.com
+http-proxy-option CUSTOM-HEADER X-Forward-Host m.youtube.com
+http-proxy-option CUSTOM-HEADER Connection keep-alive
+http-proxy-option CUSTOM-HEADER Proxy-Connection keep-alive
+http-proxy-retry
+
+END
+echo '<ca>' >> /home/vps/public_html/fixplan.ovpn
+cat /etc/openvpn/ca.crt >> /home/vps/public_html/fixplan.ovpn
+echo '</ca>' >> /home/vps/public_html/fixplan.ovpn
 
 cat > /home/vps/public_html/OpenVPN-SSL.ovpn <<-END
 
@@ -359,7 +472,7 @@ vnstat -u -i eth0
 
 # compress configs
 cd /home/vps/public_html
-zip configs.zip client.ovpn OpenVPN-SSL.ovpn stunnel.conf
+zip configs.zip client.ovpn OpenVPN-SSL.ovpn stunnel.conf fixplan.ovpn noload.ovpn gowatchplay.ovpn
 
 # install libxml-parser
 apt-get install -y libxml-parser-perl
