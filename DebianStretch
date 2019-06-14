@@ -239,7 +239,6 @@ client
 dev tun
 proto tcp
 remote $MYIP 1147
-keepalive 10 120
 port 443
 persist-key
 persist-tun
