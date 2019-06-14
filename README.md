@@ -1,6 +1,8 @@
-<h1 align="center"> VPN AutoScript Debian Stretch<img src="https://img.shields.io/badge/Version-1.7-blue.svg"></h1>
+<h1 align="center"> VPN AutoScript Debian Stretch<img src="https://img.shields.io/badge/Version-2.1-blue.svg"></h1>
 
 <p align="center">VPN AutoScript is made by FordSenpai to minimize the time consumed and user involvement in setting up your VPS</p>
+<p align="center">[Donations] GCASH: 09367592382 PAYPAL: johnford090@gmail.com FACEBOOK: John Ford Mangiliman</p>
+
 <h3 align="center">Supported Linux Distribution</h3>
 <p align="center">
   <a><img src="https://img.shields.io/badge/Support-Debian%209-red.svg"></a>
