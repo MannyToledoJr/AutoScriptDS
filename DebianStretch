@@ -204,7 +204,6 @@ client
 dev tun
 proto tcp
 remote $MYIP 1147
-lport 25
 keepalive 10 120
 persist-key
 persist-tun
