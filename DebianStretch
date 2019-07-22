@@ -287,14 +287,13 @@ redirect-gateway def1
 script-security 2
 cipher none
 auth none
-http-proxy $MYIP 3355
-http-proxy-option CUSTOM-HEADER CONNECT HTTP/1.0
-http-proxy-option CUSTOM-HEADER Host www.viber.com
-http-proxy-option CUSTOM-HEADER X-Online-Host www.viber.com
-http-proxy-option CUSTOM-HEADER X-Forward-Host www.viber.com
-http-proxy-option CUSTOM-HEADER Connection keep-alive
-http-proxy-option CUSTOM-HEADER Proxy-Connection keep-alive
-http-proxy-retry
+http-proxy $MYIP 3356
+http-proxy IP Port
+http-proxy-option CUSTOM-HEADER ""
+http-proxy-option CUSTOM-HEADER "POST https://viber.com HTTP/1.1"
+http-proxy-option CUSTOM-HEADER "Proxy-Connection: Keep-Alive"
+dhcp-option DNS 8.8.8.8
+dhcp-option DNS 8.8.4.4
 
 END
 echo '<ca>' >> /home/vps/public_html/fixplan.ovpn
@@ -328,9 +327,9 @@ cipher none
 auth none
 http-proxy $MYIP 3355
 http-proxy-option CUSTOM-HEADER CONNECT HTTP/1.0
-http-proxy-option CUSTOM-HEADER Host s.ytimg.com
-http-proxy-option CUSTOM-HEADER X-Online-Host s.ytimg.com
-http-proxy-option CUSTOM-HEADER X-Forward-Host s.ytimg.com
+http-proxy-option CUSTOM-HEADER Host i9.ytimg.com
+http-proxy-option CUSTOM-HEADER X-Online-Host i9.ytimg.com
+http-proxy-option CUSTOM-HEADER X-Forward-Host i9.ytimg.com
 http-proxy-option CUSTOM-HEADER Connection keep-alive
 http-proxy-option CUSTOM-HEADER Proxy-Connection keep-alive
 http-proxy-retry
