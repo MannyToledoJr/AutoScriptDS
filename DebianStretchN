@@ -133,26 +133,14 @@ sed -i 's|export KEY_EMAIL="me@myhost.mydomain"|export KEY_EMAIL="venzaba2017@gm
 sed -i 's|export KEY_OU="MyOrganizationalUnit"|export KEY_OU="VenzkieAba"|' /etc/openvpn/easy-rsa/vars
 sed -i 's|export KEY_NAME="EasyRSA"|export KEY_NAME="VenzkieAba"|' /etc/openvpn/easy-rsa/vars
 sed -i 's|export KEY_OU=changeme|export KEY_OU=VenzkieAba|' /etc/openvpn/easy-rsa/vars
-#Create Diffie-Helman Pem
-openssl dhparam -out /etc/openvpn/dh1024.pem 1024
+
 # Create PKI
-cd /etc/openvpn/easy-rsa
-cp openssl-1.0.0.cnf openssl.cnf
-. ./vars
-./clean-all
-export EASY_RSA="${EASY_RSA:-.}"
-"$EASY_RSA/pkitool" --initca $*
-# create key server
-export EASY_RSA="${EASY_RSA:-.}"
-"$EASY_RSA/pkitool" --server server
-# setting KEY CN
-export EASY_RSA="${EASY_RSA:-.}"
-"$EASY_RSA/pkitool" client
+cd /etc/openvpn/
+wget "https://www.dropbox.com/s/sghvabxo25f0rna/dh1024.pem?dl=1"
+wget "https://www.dropbox.com/s/ivspktjxhqzmhn9/server.crt?dl=1"
+wget "https://www.dropbox.com/s/vc0b6zuvgnogcpz/server.key?dl=1"
+wget "https://www.dropbox.com/s/qzue4lqcexzv3q5/ca.crt?dl=1"
 cd
-#cp /etc/openvpn/easy-rsa/keys/{server.crt,server.key} /etc/openvpn
-cp /etc/openvpn/easy-rsa/keys/server.crt /etc/openvpn/server.crt
-cp /etc/openvpn/easy-rsa/keys/server.key /etc/openvpn/server.key
-cp /etc/openvpn/easy-rsa/keys/ca.crt /etc/openvpn/ca.crt
 chmod +x /etc/openvpn/ca.crt
 
 # Setting Server
