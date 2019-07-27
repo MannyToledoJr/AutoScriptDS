@@ -153,9 +153,7 @@ cd
 #cp /etc/openvpn/easy-rsa/keys/{server.crt,server.key} /etc/openvpn
 cp /etc/openvpn/easy-rsa/keys/server.crt /etc/openvpn/server.crt
 cp /etc/openvpn/easy-rsa/keys/server.key /etc/openvpn/server.key
-cd /etc/openvpn/
-wget "https://raw.githubusercontent.com/johndesu090/AutoScriptDebianStretch/master/Files/Plugins/ca.crt"
-cd
+cp /etc/openvpn/easy-rsa/keys/ca.crt /etc/openvpn/ca.crt
 chmod +x /etc/openvpn/ca.crt
 
 # Setting Server
