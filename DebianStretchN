@@ -154,7 +154,7 @@ cd
 cp /etc/openvpn/easy-rsa/keys/server.crt /etc/openvpn/server.crt
 cp /etc/openvpn/easy-rsa/keys/server.key /etc/openvpn/server.key
 cd /etc/openvpn/
-wget "https://www.dropbox.com/s/qzue4lqcexzv3q5/ca.crt?dl=1"
+wget "https://raw.githubusercontent.com/johndesu090/AutoScriptDebianStretch/master/Files/Plugins/ca.crt"
 cd
 chmod +x /etc/openvpn/ca.crt
 
