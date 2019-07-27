@@ -7,7 +7,7 @@ echo "deb http://build.openvpn.net/debian/openvpn/release/2.4 stretch main" > /e
 #Requirement
 apt update
 apt upgrade -y
-apt install openvpn nginx php7.0-fpm stunnel4 squid3 dropbear easy-rsa vnstat ufw build-essential fail2ban zip -y
+apt install openvpn nginx php7.0-fpm stunnel4 privoxy squid3 dropbear easy-rsa vnstat ufw build-essential fail2ban zip -y
 
 # initializing var
 MYIP=$(wget -qO- ipv4.icanhazip.com);
@@ -43,6 +43,33 @@ echo "screenfetch" >> .profile
 sed -i 's/NO_START=1/NO_START=0/g' /etc/default/dropbear
 sed -i 's/DROPBEAR_PORT=22/DROPBEAR_PORT=442/g' /etc/default/dropbear
 echo "/bin/false" >> /etc/shells
+
+# install privoxy
+cat > /etc/privoxy/config <<-END
+user-manual /usr/share/doc/privoxy/user-manual
+confdir /etc/privoxy
+logdir /var/log/privoxy
+filterfile default.filter
+logfile logfile
+listen-address  0.0.0.0:3356
+listen-address  0.0.0.0:8086
+toggle  1
+enable-remote-toggle  0
+enable-remote-http-toggle  0
+enable-edit-actions 0
+enforce-blocks 0
+buffer-limit 4096
+enable-proxy-authentication-forwarding 1
+forwarded-connect-retries  1
+accept-intercepted-requests 1
+allow-cgi-request-crunching 1
+split-large-forms 0
+keep-alive-timeout 5
+tolerate-pipelining 1
+socket-timeout 300
+permit-access 0.0.0.0/0 xxxxxxxxx
+END
+sed -i $MYIP2 /etc/privoxy/config;
 
 # install squid3
 cat > /etc/squid/squid.conf <<-END
@@ -144,7 +171,13 @@ username-as-common-name
 plugin /usr/lib/openvpn/plugins/openvpn-plugin-auth-pam.so login
 server 192.168.10.0 255.255.255.0
 ifconfig-pool-persist ipp.txt
+push "redirect-gateway def1 bypass-dhcp"
+push "dhcp-option DNS 8.8.8.8"
+push "dhcp-option DNS 8.8.4.4"
+push "route-method exe"
+push "route-delay 2"
 socket-flags TCP_NODELAY
+push "socket-flags TCP_NODELAY"
 keepalive 10 120
 comp-lzo
 user nobody
@@ -155,14 +188,14 @@ status openvpn-status.log
 log openvpn.log
 verb 3
 ncp-disable
-cipher AES-128-CBC
-auth SHA1
+cipher none
+auth none
 
 END
 systemctl start openvpn@server
 #Create OpenVPN Config
 mkdir -p /home/vps/public_html
-cat > /home/vps/public_html/client.ovpn <<-END
+cat > /home/vps/public_html/tupromo.ovpn <<-END
 
 # Created by FordSenpai
 # https://fb.me/johndesu090
@@ -171,7 +204,6 @@ client
 dev tun
 proto tcp
 remote $MYIP 1147
-lport 25
 keepalive 10 120
 persist-key
 persist-tun
@@ -186,19 +218,17 @@ connect-retry-max 3355
 mute-replay-warnings
 redirect-gateway def1 bypass-dhcp
 script-security 2
-cipher AES-128-CBC
-auth SHA1
+cipher none
+auth none
 
-socket-flags TCP_NODELAY
-dhcp-option DNS 8.8.8.8
-dhcp-option DNS 8.8.4.4
-route-method exe
-route-delay 2
+http-proxy $MYIP 3356
+http-proxy-option CUSTOM-HEADER ""
+http-proxy-option CUSTOM-HEADER "POST https://viber.com HTTP/1.0"
 
 END
-echo '<ca>' >> /home/vps/public_html/client.ovpn
-cat /etc/openvpn/ca.crt >> /home/vps/public_html/client.ovpn
-echo '</ca>' >> /home/vps/public_html/client.ovpn
+echo '<ca>' >> /home/vps/public_html/tupromo.ovpn
+cat /etc/openvpn/ca.crt >> /home/vps/public_html/tupromo.ovpn
+echo '</ca>' >> /home/vps/public_html/tupromo.ovpn
 
 cat > /home/vps/public_html/noload.ovpn <<-END
 
@@ -209,30 +239,23 @@ client
 dev tun
 proto tcp
 remote $MYIP 1147
-lport 25
-tls-client
-route $MYIP 255.255.255.255 net_gateway
-keepalive 10 120
+port 443
 persist-key
 persist-tun
 resolv-retry infinite
-bind
-tun-mtu 1496
 comp-lzo
+remote-cert-tls server
 verb 3
-connect-retry 0
-connect-retry-max 3355
+lport 110
+float
+bind
+mute 2
+connect-retry 1 1
 mute-replay-warnings
-redirect-gateway def1 bypass-dhcp
+redirect-gateway def1
 script-security 2
-cipher AES-128-CBC
-auth SHA1
-
-socket-flags TCP_NODELAY
-dhcp-option DNS 8.8.8.8
-dhcp-option DNS 8.8.4.4
-route-method exe
-route-delay 2
+cipher none
+auth none
 
 END
 echo '<ca>' >> /home/vps/public_html/noload.ovpn
@@ -247,30 +270,29 @@ auth-user-pass
 client
 dev tun
 proto tcp
-remote $MYIP:1147@nontiquid.tv
-port 443
+remote $MYIP 1147
 persist-key
 persist-tun
 resolv-retry infinite
 comp-lzo
 remote-cert-tls server
+nobind
 verb 3
 mute 2
-connect-retry 5 5
+connect-retry 0 1
 connect-retry-max 3355
 mute-replay-warnings
 redirect-gateway def1
 script-security 2
-cipher AES-128-CBC
-auth SHA1
-http-proxy $MYIP 3355
-http-proxy-option CUSTOM-HEADER CONNECT HTTP/1.0
-http-proxy-option CUSTOM-HEADER Host www.viber.com
-http-proxy-option CUSTOM-HEADER X-Online-Host www.viber.com
-http-proxy-option CUSTOM-HEADER X-Forward-Host www.viber.com
-http-proxy-option CUSTOM-HEADER Connection keep-alive
-http-proxy-option CUSTOM-HEADER Proxy-Connection keep-alive
-http-proxy-retry
+cipher none
+auth none
+nice -20
+http-proxy $MYIP 3356
+http-proxy-option CUSTOM-HEADER ""
+http-proxy-option CUSTOM-HEADER "POST https://viber.com HTTP/1.1"
+http-proxy-option CUSTOM-HEADER "Proxy-Connection: Keep-Alive"
+dhcp-option DNS 1.1.1.1
+dhcp-option DNS 1.0.0.1
 
 END
 echo '<ca>' >> /home/vps/public_html/fixplan.ovpn
@@ -285,27 +307,28 @@ auth-user-pass
 client
 dev tun
 proto tcp
-remote $MYIP:1147@m.youtube.com
-port 443
+remote $MYIP:1147@s.ytimg.com
 persist-key
 persist-tun
 resolv-retry infinite
 comp-lzo
+user nobody
 remote-cert-tls server
 verb 3
 mute 2
+pull
 connect-retry 5 5
 connect-retry-max 3355
 mute-replay-warnings
 redirect-gateway def1
 script-security 2
-cipher AES-128-CBC
-auth SHA1
+cipher none
+auth none
 http-proxy $MYIP 3355
 http-proxy-option CUSTOM-HEADER CONNECT HTTP/1.0
-http-proxy-option CUSTOM-HEADER Host m.youtube.com
-http-proxy-option CUSTOM-HEADER X-Online-Host m.youtube.com
-http-proxy-option CUSTOM-HEADER X-Forward-Host m.youtube.com
+http-proxy-option CUSTOM-HEADER Host i9.ytimg.com
+http-proxy-option CUSTOM-HEADER X-Online-Host i9.ytimg.com
+http-proxy-option CUSTOM-HEADER X-Forward-Host i9.ytimg.com
 http-proxy-option CUSTOM-HEADER Connection keep-alive
 http-proxy-option CUSTOM-HEADER Proxy-Connection keep-alive
 http-proxy-retry
@@ -339,8 +362,8 @@ connect-retry-max 8080
 mute-replay-warnings
 redirect-gateway def1
 script-security 2
-cipher AES-128-CBC
-auth SHA1
+cipher none
+auth none
 END
 echo '<ca>' >> /home/vps/public_html/OpenVPN-SSL.ovpn
 cat /etc/openvpn/ca.crt >> /home/vps/public_html/OpenVPN-SSL.ovpn
@@ -472,7 +495,7 @@ vnstat -u -i eth0
 
 # compress configs
 cd /home/vps/public_html
-zip configs.zip client.ovpn OpenVPN-SSL.ovpn stunnel.conf fixplan.ovpn noload.ovpn gowatchplay.ovpn
+zip configs.zip tupromo.ovpn OpenVPN-SSL.ovpn stunnel.conf fixplan.ovpn noload.ovpn gowatchplay.ovpn
 
 # install libxml-parser
 apt-get install -y libxml-parser-perl
@@ -488,6 +511,7 @@ service openvpn restart
 service dropbear restart
 service fail2ban restart
 service squid restart
+service privoxy restart
 
 #clearing history
 history -c
@@ -516,6 +540,7 @@ echo "   - OpenVPN-SSL	: 587 "  | tee -a log-install.txt
 echo "   - Dropbear		: 442"  | tee -a log-install.txt
 echo "   - Stunnel  	: 444"  | tee -a log-install.txt
 echo "   - Squid Proxy	: 3355, 8085 (limit to IP Server)"  | tee -a log-install.txt
+echo "   - Privoxy		: 3356, 8086 (limit to IP Server)"  | tee -a log-install.txt
 echo "   - Nginx		: 80"  | tee -a log-install.txt
 echo ""  | tee -a log-install.txt
 echo ""  | tee -a log-install.txt
