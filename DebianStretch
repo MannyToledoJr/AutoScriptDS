@@ -25,11 +25,11 @@ ln -fs /usr/share/zoneinfo/Asia/Manila /etc/localtime
 
 # install webmin
 cd
-wget "https://github.com/johndesu090/AutoScriptDebianStretch/raw/master/Files/Plugins/webmin_1.801_all.deb"
-dpkg --install webmin_1.801_all.deb;
+wget "https://github.com/johndesu090/AutoScriptDebianStretch/raw/master/Files/Plugins/webmin_1.920_all.deb"
+dpkg --install webmin_1.920_all.deb;
 apt-get -y -f install;
 sed -i 's/ssl=1/ssl=0/g' /etc/webmin/miniserv.conf
-rm /root/webmin_1.801_all.deb
+rm /root/webmin_1.920_all.deb
 service webmin restart
 
 # install screenfetch
@@ -498,7 +498,7 @@ cd /home/vps/public_html
 zip configs.zip tupromo.ovpn OpenVPN-SSL.ovpn stunnel.conf fixplan.ovpn noload.ovpn gowatchplay.ovpn
 
 # install libxml-parser
-apt-get install -y libxml-parser-perl
+apt-get install libxml-parser-perl -y -f
 
 # finalizing
 vnstat -u -i eth0
