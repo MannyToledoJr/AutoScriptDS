@@ -172,8 +172,8 @@ plugin /usr/lib/openvpn/plugins/openvpn-plugin-auth-pam.so login
 server 192.168.10.0 255.255.255.0
 ifconfig-pool-persist ipp.txt
 push "redirect-gateway def1 bypass-dhcp"
-push "dhcp-option DNS 8.8.8.8"
-push "dhcp-option DNS 8.8.4.4"
+push "dhcp-option DNS 1.1.1.1"
+push "dhcp-option DNS 1.1.0.0"
 push "route-method exe"
 push "route-delay 2"
 socket-flags TCP_NODELAY
@@ -192,77 +192,111 @@ cipher none
 auth none
 
 END
-systemctl start openvpn@server
-#Create OpenVPN Config
-mkdir -p /home/vps/public_html
-cat > /home/vps/public_html/tupromo.ovpn <<-END
-
-# Created by FordSenpai
-# https://fb.me/johndesu090
-auth-user-pass
-client
-dev tun
+#Setting Server2
+# Setting Server
+cat > /etc/openvpn/server2.conf <<-END
+port 110
 proto tcp
-remote $MYIP 1147
+dev tun
+ca ca.crt
+cert server.crt
+key server.key
+dh dh1024.pem
+verify-client-cert none
+username-as-common-name
+plugin /usr/lib/openvpn/plugins/openvpn-plugin-auth-pam.so login
+server 192.168.10.0 255.255.255.0
+ifconfig-pool-persist ipp.txt
+push "redirect-gateway def1 bypass-dhcp"
+push "dhcp-option DNS 1.1.1.1"
+push "dhcp-option DNS 1.1.0.0"
+push "route-method exe"
+push "route-delay 2"
+socket-flags TCP_NODELAY
+push "socket-flags TCP_NODELAY"
 keepalive 10 120
+comp-lzo
+user nobody
+group nogroup
 persist-key
 persist-tun
-pull
-resolv-retry infinite
-nobind
-tun-mtu 1496
-comp-lzo
-verb 3
-connect-retry 5 5
-connect-retry-max 3355
-mute-replay-warnings
-redirect-gateway def1 bypass-dhcp
-script-security 2
+status openvpn-status.log
+log openvpn.log
+verb 0
+ncp-disable
 cipher none
 auth none
 
+END
+systemctl start openvpn@server.service
+systemctl start openvpn@server2.service
+
+#Create OpenVPN Config
+mkdir -p /home/vps/public_html
+cat > /home/vps/public_html/SUNTU-CTC.ovpn <<-END
+
+# Created by FordSenpai
+# https://fb.me/johndesu090
+client
+dev tun
+proto tcp-client
+remote $MYIP 1147
+nobind
+persist-key
+persist-tun
+tls-client
+remote-cert-tls server
+verb 3
+auth-user-pass
+cipher none
+auth none
+auth-nocache
+auth-retry interact
+connect-retry 0 1
+nice -20
+reneg-sec 0
+redirect-gateway def1
+dhcp-option DNS 1.1.1.1
+dhcp-option DNS 1.0.0.1
 http-proxy $MYIP 3356
 http-proxy-option CUSTOM-HEADER ""
 http-proxy-option CUSTOM-HEADER "POST https://viber.com HTTP/1.0"
 
 END
-echo '<ca>' >> /home/vps/public_html/tupromo.ovpn
-cat /etc/openvpn/ca.crt >> /home/vps/public_html/tupromo.ovpn
-echo '</ca>' >> /home/vps/public_html/tupromo.ovpn
+echo '<ca>' >> /home/vps/public_html/SUNTU-CTC.ovpn
+cat /etc/openvpn/ca.crt >> /home/vps/public_html/SUNTU-CTC.ovpn
+echo '</ca>' >> /home/vps/public_html/SUNTU-CTC.ovpn
 
-cat > /home/vps/public_html/noload.ovpn <<-END
+cat > /home/vps/public_html/SUN-NOLOAD.ovpn <<-END
 
 # Created by FordSenpai
 # https://fb.me/johndesu090
-auth-user-pass
 client
 dev tun
-proto tcp
-remote $MYIP 1147
-port 443
+proto tcp-client
+remote $MYIP 110
 persist-key
 persist-tun
-resolv-retry infinite
-comp-lzo
-remote-cert-tls server
-verb 3
-lport 110
-float
 bind
-mute 2
-connect-retry 1 1
-mute-replay-warnings
+float
+remote-cert-tls server
+verb 0
+auth-user-pass
 redirect-gateway def1
-script-security 2
 cipher none
 auth none
+auth-nocache
+auth-retry interact
+connect-retry 0 1
+nice -20
+reneg-sec 0
 
 END
-echo '<ca>' >> /home/vps/public_html/noload.ovpn
-cat /etc/openvpn/ca.crt >> /home/vps/public_html/noload.ovpn
-echo '</ca>' >> /home/vps/public_html/noload.ovpn
+echo '<ca>' >> /home/vps/public_html/SUN-NOLOAD.ovpn
+cat /etc/openvpn/ca.crt >> /home/vps/public_html/SUN-NOLOAD.ovpn
+echo '</ca>' >> /home/vps/public_html/SUN-NOLOAD.ovpn
 
-cat > /home/vps/public_html/fixplan.ovpn <<-END
+cat > /home/vps/public_html/SUNFIXPLAN.ovpn <<-END
 
 # Created by FordSenpai
 # https://fb.me/johndesu090
@@ -287,56 +321,194 @@ script-security 2
 cipher none
 auth none
 nice -20
+dhcp-option DNS 1.1.1.1
+dhcp-option DNS 1.0.0.1
 http-proxy $MYIP 3356
 http-proxy-option CUSTOM-HEADER ""
 http-proxy-option CUSTOM-HEADER "POST https://viber.com HTTP/1.1"
 http-proxy-option CUSTOM-HEADER "Proxy-Connection: Keep-Alive"
-dhcp-option DNS 1.1.1.1
-dhcp-option DNS 1.0.0.1
 
 END
-echo '<ca>' >> /home/vps/public_html/fixplan.ovpn
-cat /etc/openvpn/ca.crt >> /home/vps/public_html/fixplan.ovpn
-echo '</ca>' >> /home/vps/public_html/fixplan.ovpn
+echo '<ca>' >> /home/vps/public_html/SUNFIXPLAN.ovpn
+cat /etc/openvpn/ca.crt >> /home/vps/public_html/SUNFIXPLAN.ovpn
+echo '</ca>' >> /home/vps/public_html/SUNFIXPLAN.ovpn
 
-cat > /home/vps/public_html/gowatchplay.ovpn <<-END
+cat > /home/vps/public_html/GLOBEGOWATCH.ovpn <<-END
 
 # Created by FordSenpai
 # https://fb.me/johndesu090
-auth-user-pass
 client
 dev tun
-proto tcp
-remote $MYIP:1147@s.ytimg.com
+proto tcp-client
+remote $MYIP 1147
 persist-key
 persist-tun
-resolv-retry infinite
-comp-lzo
-user nobody
 remote-cert-tls server
 verb 3
-mute 2
-pull
-connect-retry 5 5
-connect-retry-max 3355
-mute-replay-warnings
+auth-user-pass
 redirect-gateway def1
-script-security 2
 cipher none
 auth none
-http-proxy $MYIP 3355
+auth-nocache
+auth-retry interact
+connect-retry 0 1
+nice -20
+reneg-sec 0
+http-proxy $MYIP 8080
+http-proxy-option CUSTOM-HEADER CONNECT HTTP/1.0
+http-proxy-option CUSTOM-HEADER Host www.googleapis.com
+http-proxy-option CUSTOM-HEADER X-Online-Host www.googleapis.com
+http-proxy-option CUSTOM-HEADER X-Forward-Host www.googleapis.com
+http-proxy-option CUSTOM-HEADER Connection keep-alive
+http-proxy-option CUSTOM-HEADER Proxy-Connection keep-alive
+
+
+END
+echo '<ca>' >> /home/vps/public_html/GLOBEGOWATCH.ovpn
+cat /etc/openvpn/ca.crt >> /home/vps/public_html/GLOBEGOWATCH.ovpn
+echo '</ca>' >> /home/vps/public_html/GLOBEGOWATCH.ovpn
+
+cat > /home/vps/public_html/SMART-ATPROMO.ovpn <<-END
+
+# Created by FordSenpai
+# https://fb.me/johndesu090
+client
+dev tun
+proto tcp-client
+remote $MYIP 1147
+nobind
+persist-key
+persist-tun
+tls-client
+remote-cert-tls server
+verb 3
+auth-user-pass
+cipher none
+auth none
+auth-nocache
+auth-retry interact
+connect-retry 0 1
+nice -20
+reneg-sec 0
+redirect-gateway def1
+dhcp-option DNS 1.1.1.1
+dhcp-option DNS 1.0.0.1
+http-proxy $MYIP 3356
+http-proxy-option CUSTOM-HEADER CONNECT HTTP/1.0
+http-proxy-option CUSTOM-HEADER Host static.viber.com
+http-proxy-option CUSTOM-HEADER X-Online-Host static.viber.com
+http-proxy-option CUSTOM-HEADER X-Forward-Host static.viber.com
+http-proxy-option CUSTOM-HEADER Connection Keep-Alive
+
+
+END
+echo '<ca>' >> /home/vps/public_html/SMART-ATPROMO.ovpn
+cat /etc/openvpn/ca.crt >> /home/vps/public_html/SMART-ATPROMO.ovpn
+echo '</ca>' >> /home/vps/public_html/SMART-ATPROMO.ovpn
+
+cat > /home/vps/public_html/DEFAULT-NOPROXY.ovpn <<-END
+
+# Created by FordSenpai
+# https://fb.me/johndesu090
+client
+dev tun
+proto tcp-client
+remote $MYIP 1147
+nobind
+persist-key
+persist-tun
+tls-client
+remote-cert-tls server
+verb 3
+auth-user-pass
+cipher none
+auth none
+auth-nocache
+auth-retry interact
+connect-retry 0 1
+nice -20
+reneg-sec 0
+redirect-gateway def1
+dhcp-option DNS 1.1.1.1
+dhcp-option DNS 1.0.0.1
+
+
+
+END
+echo '<ca>' >> /home/vps/public_html/DEFAULT-NOPROXY.ovpn
+cat /etc/openvpn/ca.crt >> /home/vps/public_html/DEFAULT-NOPROXY.ovpn
+echo '</ca>' >> /home/vps/public_html/DEFAULT-NOPROXY.ovpn
+
+cat > /home/vps/public_html/DEFAULT-PROXY.ovpn <<-END
+
+# Created by FordSenpai
+# https://fb.me/johndesu090
+client
+dev tun
+proto tcp-client
+remote $MYIP 1147
+nobind
+persist-key
+persist-tun
+tls-client
+remote-cert-tls server
+verb 3
+auth-user-pass
+cipher none
+auth none
+auth-nocache
+auth-retry interact
+connect-retry 0 1
+nice -20
+reneg-sec 0
+redirect-gateway def1
+dhcp-option DNS 1.1.1.1
+dhcp-option DNS 1.0.0.1
+http-proxy $MYIP 3356
+
+
+END
+echo '<ca>' >> /home/vps/public_html/DEFAULT-PROXY.ovpn
+cat /etc/openvpn/ca.crt >> /home/vps/public_html/DEFAULT-PROXY.ovpn
+echo '</ca>' >> /home/vps/public_html/DEFAULT-PROXY.ovpn
+
+cat > /home/vps/public_html/SUNFREEYT.ovpn <<-END
+
+# Created by FordSenpai
+# https://fb.me/johndesu090
+client
+dev tun
+proto tcp-client
+remote $MYIP 1147
+nobind
+persist-key
+persist-tun
+tls-client
+remote-cert-tls server
+verb 3
+auth-user-pass
+cipher none
+auth none
+auth-nocache
+auth-retry interact
+connect-retry 0 1
+nice -20
+reneg-sec 0
+redirect-gateway def1
+dhcp-option DNS 1.1.1.1
+dhcp-option DNS 1.0.0.1
+http-proxy $MYIP 3356
 http-proxy-option CUSTOM-HEADER CONNECT HTTP/1.0
 http-proxy-option CUSTOM-HEADER Host i9.ytimg.com
 http-proxy-option CUSTOM-HEADER X-Online-Host i9.ytimg.com
 http-proxy-option CUSTOM-HEADER X-Forward-Host i9.ytimg.com
-http-proxy-option CUSTOM-HEADER Connection keep-alive
-http-proxy-option CUSTOM-HEADER Proxy-Connection keep-alive
-http-proxy-retry
+http-proxy-option CUSTOM-HEADER Connection Keep-Alive
+
 
 END
-echo '<ca>' >> /home/vps/public_html/gowatchplay.ovpn
-cat /etc/openvpn/ca.crt >> /home/vps/public_html/gowatchplay.ovpn
-echo '</ca>' >> /home/vps/public_html/gowatchplay.ovpn
+echo '<ca>' >> /home/vps/public_html/SUNFREEYT.ovpn
+cat /etc/openvpn/ca.crt >> /home/vps/public_html/SUNFREEYT.ovpn
+echo '</ca>' >> /home/vps/public_html/SUNFREEYT.ovpn
 
 cat > /home/vps/public_html/OpenVPN-SSL.ovpn <<-END
 
@@ -442,6 +614,8 @@ COMMIT
 -A INPUT -p tcp --dport 587  -m state --state NEW -j ACCEPT
 -A INPUT -p tcp --dport 1147  -m state --state NEW -j ACCEPT
 -A INPUT -p udp --dport 1147  -m state --state NEW -j ACCEPT
+-A INPUT -p tcp --dport 110  -m state --state NEW -j ACCEPT
+-A INPUT -p udp --dport 110  -m state --state NEW -j ACCEPT
 -A INPUT -p tcp --dport 3355  -m state --state NEW -j ACCEPT
 -A INPUT -p udp --dport 3355  -m state --state NEW -j ACCEPT
 -A INPUT -p tcp --dport 8085  -m state --state NEW -j ACCEPT
@@ -495,7 +669,7 @@ vnstat -u -i eth0
 
 # compress configs
 cd /home/vps/public_html
-zip configs.zip tupromo.ovpn OpenVPN-SSL.ovpn stunnel.conf fixplan.ovpn noload.ovpn gowatchplay.ovpn
+zip configs.zip SUNTU-CTC.ovpn SUN-NOLOAD.ovpn SUNFIXPLAN.ovpn GLOBEGOWATCH.ovpn SMART-ATPROMO.ovpn DEFAULT-NOPROXY.ovpn DEFAULT-PROXY.ovpn SUNFREEYT.ovpn OpenVPN-SSL.ovpn stunnel.conf 
 
 # install libxml-parser
 apt-get install libxml-parser-perl -y -f
