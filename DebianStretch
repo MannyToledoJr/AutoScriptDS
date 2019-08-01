@@ -156,10 +156,8 @@ cp /etc/openvpn/easy-rsa/keys/ca.crt /etc/openvpn/ca.crt
 chmod +x /etc/openvpn/ca.crt
 
 # Setting Server
-tar -xzvf /root/plugin.tgz -C /usr/lib/openvpn/
-chmod +x /usr/lib/openvpn/*
 cat > /etc/openvpn/server.conf <<-END
-port 1147
+port 110
 proto tcp
 dev tun
 ca ca.crt
@@ -192,44 +190,7 @@ cipher none
 auth none
 
 END
-#Setting Server2
-# Setting Server
-cat > /etc/openvpn/server2.conf <<-END
-port 110
-proto tcp
-dev tun
-ca ca.crt
-cert server.crt
-key server.key
-dh dh1024.pem
-verify-client-cert none
-username-as-common-name
-plugin /usr/lib/openvpn/plugins/openvpn-plugin-auth-pam.so login
-server 192.168.10.0 255.255.255.0
-ifconfig-pool-persist ipp.txt
-push "redirect-gateway def1 bypass-dhcp"
-push "dhcp-option DNS 1.1.1.1"
-push "dhcp-option DNS 1.1.0.0"
-push "route-method exe"
-push "route-delay 2"
-socket-flags TCP_NODELAY
-push "socket-flags TCP_NODELAY"
-keepalive 10 120
-comp-lzo
-user nobody
-group nogroup
-persist-key
-persist-tun
-status openvpn-status.log
-log openvpn.log
-verb 0
-ncp-disable
-cipher none
-auth none
-
-END
-systemctl start openvpn@server.service
-systemctl start openvpn@server2.service
+systemctl start openvpn@server
 
 #Create OpenVPN Config
 mkdir -p /home/vps/public_html
@@ -240,7 +201,7 @@ cat > /home/vps/public_html/SUNTU-CTC.ovpn <<-END
 client
 dev tun
 proto tcp-client
-remote $MYIP 1147
+remote $MYIP 110
 nobind
 persist-key
 persist-tun
@@ -304,7 +265,7 @@ auth-user-pass
 client
 dev tun
 proto tcp
-remote $MYIP 1147
+remote $MYIP 110
 persist-key
 persist-tun
 resolv-retry infinite
@@ -340,7 +301,7 @@ cat > /home/vps/public_html/GLOBEGOWATCH.ovpn <<-END
 client
 dev tun
 proto tcp-client
-remote $MYIP 1147
+remote $MYIP 110
 persist-key
 persist-tun
 remote-cert-tls server
@@ -375,7 +336,7 @@ cat > /home/vps/public_html/SMART-ATPROMO.ovpn <<-END
 client
 dev tun
 proto tcp-client
-remote $MYIP 1147
+remote $MYIP 110
 nobind
 persist-key
 persist-tun
@@ -413,7 +374,7 @@ cat > /home/vps/public_html/DEFAULT-NOPROXY.ovpn <<-END
 client
 dev tun
 proto tcp-client
-remote $MYIP 1147
+remote $MYIP 110
 nobind
 persist-key
 persist-tun
@@ -446,7 +407,7 @@ cat > /home/vps/public_html/DEFAULT-PROXY.ovpn <<-END
 client
 dev tun
 proto tcp-client
-remote $MYIP 1147
+remote $MYIP 110
 nobind
 persist-key
 persist-tun
@@ -479,7 +440,7 @@ cat > /home/vps/public_html/SUNFREEYT.ovpn <<-END
 client
 dev tun
 proto tcp-client
-remote $MYIP 1147
+remote $MYIP 110
 nobind
 persist-key
 persist-tun
@@ -517,7 +478,7 @@ auth-user-pass
 client
 dev tun
 proto tcp
-remote 127.0.0.1 1147
+remote 127.0.0.1 110
 route $MYIP 255.255.255.255 net_gateway
 persist-key
 persist-tun
@@ -547,7 +508,7 @@ client = yes
 debug = 6
 
 [openvpn]
-accept = 127.0.0.1:1147
+accept = 127.0.0.1:110
 connect = $MYIP:587
 TIMEOUTclose = 0
 verify = 0
@@ -567,7 +528,7 @@ client = no
 
 [openvpn]
 accept = 587
-connect = 127.0.0.1:1147
+connect = 127.0.0.1:110
 cert = /etc/stunnel/stunnel.pem
 
 [dropbear]
@@ -709,7 +670,7 @@ echo "   - Auto-Reboot : [OFF]"  | tee -a log-install.txt
 echo "   - IPv6        : [OFF]"  | tee -a log-install.txt
 echo ""  | tee -a log-install.txt
 echo "Application & Port Information"  | tee -a log-install.txt
-echo "   - OpenVPN		: TCP 1147 "  | tee -a log-install.txt
+echo "   - OpenVPN		: TCP 110 "  | tee -a log-install.txt
 echo "   - OpenVPN-SSL	: 587 "  | tee -a log-install.txt
 echo "   - Dropbear		: 442"  | tee -a log-install.txt
 echo "   - Stunnel  	: 444"  | tee -a log-install.txt
