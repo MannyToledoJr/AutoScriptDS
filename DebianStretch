@@ -437,33 +437,35 @@ cat > /home/vps/public_html/SUNFREEYT.ovpn <<-END
 
 # Created by FordSenpai
 # https://fb.me/johndesu090
+auth-user-pass
 client
 dev tun
-proto tcp-client
+proto tcp
 remote $MYIP 110
-nobind
 persist-key
 persist-tun
-tls-client
+resolv-retry infinite
+comp-lzo
 remote-cert-tls server
 verb 3
-auth-user-pass
+mute 2
+nobind
+pull
+connect-retry 5 5
+connect-retry-max 3355
+mute-replay-warnings
+redirect-gateway def1
+script-security 2
 cipher none
 auth none
-auth-nocache
-auth-retry interact
-connect-retry 0 1
-nice -20
-reneg-sec 0
-redirect-gateway def1
-dhcp-option DNS 1.1.1.1
-dhcp-option DNS 1.0.0.1
 http-proxy $MYIP 3356
 http-proxy-option CUSTOM-HEADER CONNECT HTTP/1.0
 http-proxy-option CUSTOM-HEADER Host i9.ytimg.com
 http-proxy-option CUSTOM-HEADER X-Online-Host i9.ytimg.com
 http-proxy-option CUSTOM-HEADER X-Forward-Host i9.ytimg.com
-http-proxy-option CUSTOM-HEADER Connection Keep-Alive
+http-proxy-option CUSTOM-HEADER Connection keep-alive
+http-proxy-option CUSTOM-HEADER Proxy-Connection keep-alive
+http-proxy-retry
 
 
 END
