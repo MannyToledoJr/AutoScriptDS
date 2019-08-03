@@ -315,7 +315,7 @@ auth-retry interact
 connect-retry 0 1
 nice -20
 reneg-sec 0
-http-proxy $MYIP 8080
+http-proxy $MYIP 3356
 http-proxy-option CUSTOM-HEADER CONNECT HTTP/1.0
 http-proxy-option CUSTOM-HEADER Host www.googleapis.com
 http-proxy-option CUSTOM-HEADER X-Online-Host www.googleapis.com
