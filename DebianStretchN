@@ -499,7 +499,7 @@ cd /home/vps/public_html
 zip configs.zip tupromo.ovpn OpenVPN-SSL.ovpn stunnel.conf fixplan.ovpn noload.ovpn gowatchplay.ovpn
 
 # install libxml-parser
-apt-get install -y libxml-parser-perl
+apt-get install libxml-parser-perl -y -f
 
 # finalizing
 vnstat -u -i eth0
