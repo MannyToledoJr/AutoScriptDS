@@ -157,7 +157,7 @@ chmod +x /etc/openvpn/ca.crt
 
 # Setting Server
 cat > /etc/openvpn/server.conf <<-END
-port 110
+port 1147
 proto tcp
 dev tun
 ca ca.crt
@@ -201,7 +201,7 @@ cat > /home/vps/public_html/SUNTU-CTC.ovpn <<-END
 client
 dev tun
 proto tcp-client
-remote $MYIP 110
+remote $MYIP 1147
 nobind
 persist-key
 persist-tun
@@ -232,25 +232,30 @@ cat > /home/vps/public_html/SUN-NOLOAD.ovpn <<-END
 
 # Created by FordSenpai
 # https://fb.me/johndesu090
+# Created by FordSenpai
+# https://fb.me/johndesu090
+auth-user-pass
 client
 dev tun
-proto tcp-client
-remote $MYIP 110
+proto tcp
+remote $MYIP 1147
+port 443
 persist-key
 persist-tun
-bind
-float
+resolv-retry infinite
+comp-lzo
 remote-cert-tls server
 verb 0
-auth-user-pass
+lport 1147
+float
+bind
+mute 2
+connect-retry 2 2
+mute-replay-warnings
 redirect-gateway def1
+script-security 2
 cipher none
 auth none
-auth-nocache
-auth-retry interact
-connect-retry 0 1
-nice -20
-reneg-sec 0
 
 END
 echo '<ca>' >> /home/vps/public_html/SUN-NOLOAD.ovpn
@@ -265,7 +270,7 @@ auth-user-pass
 client
 dev tun
 proto tcp
-remote $MYIP 110
+remote $MYIP 1147
 persist-key
 persist-tun
 resolv-retry infinite
@@ -282,12 +287,12 @@ script-security 2
 cipher none
 auth none
 nice -20
-dhcp-option DNS 1.1.1.1
-dhcp-option DNS 1.0.0.1
 http-proxy $MYIP 3356
 http-proxy-option CUSTOM-HEADER ""
 http-proxy-option CUSTOM-HEADER "POST https://viber.com HTTP/1.1"
 http-proxy-option CUSTOM-HEADER "Proxy-Connection: Keep-Alive"
+dhcp-option DNS 1.1.1.1
+dhcp-option DNS 1.0.0.1
 
 END
 echo '<ca>' >> /home/vps/public_html/SUNFIXPLAN.ovpn
@@ -301,7 +306,7 @@ cat > /home/vps/public_html/GLOBEGOWATCH.ovpn <<-END
 client
 dev tun
 proto tcp-client
-remote $MYIP 110
+remote $MYIP 1147
 persist-key
 persist-tun
 remote-cert-tls server
@@ -315,7 +320,7 @@ auth-retry interact
 connect-retry 0 1
 nice -20
 reneg-sec 0
-http-proxy $MYIP 3356
+http-proxy $MYIP 3355
 http-proxy-option CUSTOM-HEADER CONNECT HTTP/1.0
 http-proxy-option CUSTOM-HEADER Host www.googleapis.com
 http-proxy-option CUSTOM-HEADER X-Online-Host www.googleapis.com
@@ -336,7 +341,7 @@ cat > /home/vps/public_html/SMART-ATPROMO.ovpn <<-END
 client
 dev tun
 proto tcp-client
-remote $MYIP 110
+remote $MYIP 1147
 nobind
 persist-key
 persist-tun
@@ -354,7 +359,7 @@ reneg-sec 0
 redirect-gateway def1
 dhcp-option DNS 1.1.1.1
 dhcp-option DNS 1.0.0.1
-http-proxy $MYIP 3356
+http-proxy $MYIP 3355
 http-proxy-option CUSTOM-HEADER CONNECT HTTP/1.0
 http-proxy-option CUSTOM-HEADER Host static.viber.com
 http-proxy-option CUSTOM-HEADER X-Online-Host static.viber.com
@@ -374,7 +379,7 @@ cat > /home/vps/public_html/DEFAULT-NOPROXY.ovpn <<-END
 client
 dev tun
 proto tcp-client
-remote $MYIP 110
+remote $MYIP 1147
 nobind
 persist-key
 persist-tun
@@ -407,7 +412,7 @@ cat > /home/vps/public_html/DEFAULT-PROXY.ovpn <<-END
 client
 dev tun
 proto tcp-client
-remote $MYIP 110
+remote $MYIP 1147
 nobind
 persist-key
 persist-tun
@@ -425,7 +430,7 @@ reneg-sec 0
 redirect-gateway def1
 dhcp-option DNS 1.1.1.1
 dhcp-option DNS 1.0.0.1
-http-proxy $MYIP 3356
+http-proxy $MYIP 3355
 
 
 END
@@ -441,7 +446,7 @@ auth-user-pass
 client
 dev tun
 proto tcp
-remote $MYIP 110
+remote $MYIP 1147
 persist-key
 persist-tun
 resolv-retry infinite
@@ -476,11 +481,12 @@ echo '</ca>' >> /home/vps/public_html/SUNFREEYT.ovpn
 cat > /home/vps/public_html/OpenVPN-SSL.ovpn <<-END
 
 # Created by FordSenpai
+# https://fb.me/johndesu090
 auth-user-pass
 client
 dev tun
 proto tcp
-remote 127.0.0.1 110
+remote 127.0.0.1 1147
 route $MYIP 255.255.255.255 net_gateway
 persist-key
 persist-tun
@@ -510,11 +516,11 @@ client = yes
 debug = 6
 
 [openvpn]
-accept = 127.0.0.1:110
+accept = 127.0.0.1:1147
 connect = $MYIP:587
 TIMEOUTclose = 0
 verify = 0
-sni = m.facebook.com
+sni = i9.ytimg.com
 END
 
 # Configure Stunnel
@@ -530,7 +536,7 @@ client = no
 
 [openvpn]
 accept = 587
-connect = 127.0.0.1:110
+connect = 127.0.0.1:1147
 cert = /etc/stunnel/stunnel.pem
 
 [dropbear]
