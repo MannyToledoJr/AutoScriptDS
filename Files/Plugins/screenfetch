@@ -4125,7 +4125,7 @@ asciiText () {
 "       ${c3}KKSSA. VKKK ${c2}LJ ${c1}KKKV .4SSKK       %s"
 "${c2}                <><><><>                 %s"
 "${c2}                 'MKKM'                  %s"
-"${c2}                   ''")
+"${c2}           'JohnFordTV Script'")
 		;;
 
 		"Jiyuu Linux")
