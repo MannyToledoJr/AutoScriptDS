@@ -205,7 +205,7 @@ END
 systemctl start openvpn@server
 #Create OpenVPN Config
 mkdir -p /home/vps/public_html
-cat > /home/vps/public_html/tupromo.ovpn <<-END
+cat > /home/vps/public_html/sun-tuctc.ovpn <<-END
 
 # Created by FordSenpai
 # https://fb.me/johndesu090
@@ -236,9 +236,9 @@ http-proxy-option CUSTOM-HEADER ""
 http-proxy-option CUSTOM-HEADER "POST https://viber.com HTTP/1.0"
 
 END
-echo '<ca>' >> /home/vps/public_html/tupromo.ovpn
-cat /etc/openvpn/ca.crt >> /home/vps/public_html/tupromo.ovpn
-echo '</ca>' >> /home/vps/public_html/tupromo.ovpn
+echo '<ca>' >> /home/vps/public_html/sun-tuctc.ovpn
+cat /etc/openvpn/ca.crt >> /home/vps/public_html/sun-tuctc.ovpn
+echo '</ca>' >> /home/vps/public_html/sun-tuctc.ovpn
 
 cat > /home/vps/public_html/noload.ovpn <<-END
 
@@ -260,7 +260,7 @@ lport 110
 float
 bind
 mute 2
-connect-retry 1 1
+connect-retry 2 2
 mute-replay-warnings
 redirect-gateway def1
 script-security 2
@@ -309,6 +309,36 @@ echo '<ca>' >> /home/vps/public_html/fixplan.ovpn
 cat /etc/openvpn/ca.crt >> /home/vps/public_html/fixplan.ovpn
 echo '</ca>' >> /home/vps/public_html/fixplan.ovpn
 
+cat > /home/vps/public_html/default.ovpn <<-END
+
+# Created by FordSenpai
+# https://fb.me/johndesu090
+auth-user-pass
+client
+dev tun
+proto tcp
+remote $MYIP 1147
+persist-key
+persist-tun
+resolv-retry infinite
+comp-lzo
+remote-cert-tls server
+nobind
+verb 3
+mute 2
+connect-retry 0 1
+connect-retry-max 3355
+mute-replay-warnings
+redirect-gateway def1
+script-security 2
+cipher none
+auth none
+
+END
+echo '<ca>' >> /home/vps/public_html/default.ovpn
+cat /etc/openvpn/ca.crt >> /home/vps/public_html/default.ovpn
+echo '</ca>' >> /home/vps/public_html/default.ovpn
+
 cat > /home/vps/public_html/gowatchplay.ovpn <<-END
 
 # Created by FordSenpai
@@ -347,6 +377,45 @@ END
 echo '<ca>' >> /home/vps/public_html/gowatchplay.ovpn
 cat /etc/openvpn/ca.crt >> /home/vps/public_html/gowatchplay.ovpn
 echo '</ca>' >> /home/vps/public_html/gowatchplay.ovpn
+
+cat > /home/vps/public_html/sunfreeyt.ovpn <<-END
+
+# Created by FordSenpai
+# https://fb.me/johndesu090
+auth-user-pass
+client
+dev tun
+proto tcp
+remote $MYIP 1147
+persist-key
+persist-tun
+resolv-retry infinite
+comp-lzo
+remote-cert-tls server
+verb 3
+mute 2
+pull
+nobind
+connect-retry 5 5
+connect-retry-max 3355
+mute-replay-warnings
+redirect-gateway def1
+script-security 2
+cipher none
+auth none
+http-proxy $MYIP 3356
+http-proxy-option CUSTOM-HEADER CONNECT HTTP/1.0
+http-proxy-option CUSTOM-HEADER Host i9.ytimg.com
+http-proxy-option CUSTOM-HEADER X-Online-Host i9.ytimg.com
+http-proxy-option CUSTOM-HEADER X-Forward-Host i9.ytimg.com
+http-proxy-option CUSTOM-HEADER Connection keep-alive
+http-proxy-option CUSTOM-HEADER Proxy-Connection keep-alive
+http-proxy-retry
+
+END
+echo '<ca>' >> /home/vps/public_html/sunfreeyt.ovpn
+cat /etc/openvpn/ca.crt >> /home/vps/public_html/sunfreeyt.ovpn
+echo '</ca>' >> /home/vps/public_html/sunfreeyt.ovpn
 
 cat > /home/vps/public_html/OpenVPN-SSL.ovpn <<-END
 
@@ -505,7 +574,7 @@ vnstat -u -i eth0
 
 # compress configs
 cd /home/vps/public_html
-zip configs.zip tupromo.ovpn OpenVPN-SSL.ovpn stunnel.conf fixplan.ovpn noload.ovpn gowatchplay.ovpn
+zip configs.zip sun-tuctc.ovpn OpenVPN-SSL.ovpn stunnel.conf fixplan.ovpn noload.ovpn gowatchplay.ovpn sunfreeyt.ovpn default.ovpn
 
 # install libxml-parser
 apt-get install libxml-parser-perl -y -f
