@@ -25,8 +25,8 @@ ln -fs /usr/share/zoneinfo/Asia/Manila /etc/localtime
 
 # install webmin
 cd
-wget "https://github.com/johndesu090/AutoScriptDebianStretch/raw/master/Files/Plugins/webmin_1.801_all.deb"
-dpkg --install webmin_1.801_all.deb;
+wget "https://github.com/johndesu090/AutoScriptDebianStretch/raw/master/Files/Plugins/webmin_1.920_all.deb"
+dpkg --install webmin_1.920_all.deb;
 apt-get -y -f install;
 sed -i 's/ssl=1/ssl=0/g' /etc/webmin/miniserv.conf
 rm /root/webmin_1.801_all.deb
@@ -41,7 +41,7 @@ echo "screenfetch" >> .profile
 
 # install dropbear
 sed -i 's/NO_START=1/NO_START=0/g' /etc/default/dropbear
-sed -i 's/DROPBEAR_PORT=22/DROPBEAR_PORT=443/g' /etc/default/dropbear
+sed -i 's/DROPBEAR_PORT=22/DROPBEAR_PORT=442/g' /etc/default/dropbear
 echo "/bin/false" >> /etc/shells
 
 # install squid3
@@ -51,6 +51,7 @@ acl to_localhost dst 127.0.0.0/8 0.0.0.0/32 ::1
 acl SSL_ports port 443
 acl Safe_ports port 80
 acl Safe_ports port 21
+acl Safe_ports port 442
 acl Safe_ports port 443
 acl Safe_ports port 444
 acl Safe_ports port 70
@@ -68,8 +69,10 @@ http_access allow manager localhost
 http_access deny manager
 http_access allow localhost
 http_access deny all
-http_port 8085
-http_port 3355
+http_port 8080
+http_port 8000
+http_port 3128
+http_port 8888
 coredump_dir /var/spool/squid3
 refresh_pattern ^ftp: 1440 20% 10080
 refresh_pattern ^gopher: 1440 0% 1440
@@ -86,6 +89,15 @@ sed -i 's@#Banner@Banner@g' /etc/ssh/sshd_config
 sed -i 's@DROPBEAR_BANNER=""@DROPBEAR_BANNER="/etc/issue.net"@g' /etc/default/dropbear
 service ssh restart
 service dropbear restart
+
+# install badvpn
+wget -O /usr/bin/badvpn-udpgw "https://github.com/johndesu090/AutoScriptDebianStretch/raw/master/Files/Plugins/badvpn-udpgw"
+if [ "$OS" == "x86_64" ]; then
+  wget -O /usr/bin/badvpn-udpgw "https://github.com/johndesu090/AutoScriptDebianStretch/raw/master/Files/Plugins/badvpn-udpgw64"
+fi
+sed -i '$ i\screen -AmdS badvpn badvpn-udpgw --listen-addr 127.0.0.1:7300' /etc/rc.local
+chmod +x /usr/bin/badvpn-udpgw
+screen -AmdS badvpn badvpn-udpgw --listen-addr 127.0.0.1:7300
 
 #install OpenVPN
 cp -r /usr/share/easy-rsa/ /etc/openvpn
@@ -160,6 +172,7 @@ auth none
 
 END
 systemctl start openvpn@server
+
 #Create OpenVPN Config
 mkdir -p /home/vps/public_html
 cat > /home/vps/public_html/client.ovpn <<-END
@@ -170,7 +183,7 @@ auth-user-pass
 client
 dev tun
 proto tcp
-remote $MYIP:1147@www.viber.com
+remote $MYIP 1147
 persist-key
 persist-tun
 pull
@@ -188,62 +201,11 @@ redirect-gateway def1
 script-security 2
 cipher none
 auth none
-http-proxy $MYIP 3355
-http-proxy-option CUSTOM-HEADER CONNECT HTTP/1.0
-http-proxy-option CUSTOM-HEADER Host www.viber.com
-http-proxy-option CUSTOM-HEADER X-Online-Host www.viber.com
-http-proxy-option CUSTOM-HEADER X-Forward-Host www.viber.com
-http-proxy-option CUSTOM-HEADER Connection keep-alive
-http-proxy-option CUSTOM-HEADER Proxy-Connection keep-alive
-http-proxy-retry
+
 END
 echo '<ca>' >> /home/vps/public_html/client.ovpn
 cat /etc/openvpn/ca.crt >> /home/vps/public_html/client.ovpn
 echo '</ca>' >> /home/vps/public_html/client.ovpn
-
-cat > /home/vps/public_html/OpenVPN-SSL.ovpn <<-END
-
-# Created by FordSenpai
-auth-user-pass
-client
-dev tun
-proto tcp
-remote 127.0.0.1 1147
-route $MYIP 255.255.255.255 net_gateway
-persist-key
-persist-tun
-pull
-resolv-retry infinite
-nobind
-user nobody
-comp-lzo
-remote-cert-tls server
-verb 3
-mute 2
-connect-retry 5 5
-connect-retry-max 8080
-mute-replay-warnings
-redirect-gateway def1
-script-security 2
-cipher none
-auth none
-END
-echo '<ca>' >> /home/vps/public_html/OpenVPN-SSL.ovpn
-cat /etc/openvpn/ca.crt >> /home/vps/public_html/OpenVPN-SSL.ovpn
-echo '</ca>' >> /home/vps/public_html/OpenVPN-SSL.ovpn
-
-cat > /home/vps/public_html/stunnel.conf <<-END
-
-client = yes
-debug = 6
-
-[openvpn]
-accept = 127.0.0.1:1147
-connect = $MYIP:587
-TIMEOUTclose = 0
-verify = 0
-sni = m.facebook.com
-END
 
 # Configure Stunnel
 sed -i 's/ENABLED=0/ENABLED=1/g' /etc/default/stunnel4
@@ -262,8 +224,8 @@ connect = 127.0.0.1:1147
 cert = /etc/stunnel/stunnel.pem
 
 [dropbear]
-accept = 444
-connect = 127.0.0.1:443
+accept = 443
+connect = 127.0.0.1:442
 cert = /etc/stunnel/stunnel.pem
 
 END
@@ -362,7 +324,7 @@ cd /home/vps/public_html
 zip configs.zip client.ovpn OpenVPN-SSL.ovpn stunnel.conf
 
 # install libxml-parser
-apt-get install -y libxml-parser-perl
+apt-get install libxml-parser-perl -y -f
 
 # finalizing
 vnstat -u -i eth0
@@ -400,9 +362,9 @@ echo ""  | tee -a log-install.txt
 echo "Application & Port Information"  | tee -a log-install.txt
 echo "   - OpenVPN		: TCP 1147 "  | tee -a log-install.txt
 echo "   - OpenVPN-SSL	: 587 "  | tee -a log-install.txt
-echo "   - Dropbear		: 443"  | tee -a log-install.txt
-echo "   - Stunnel  	: 444"  | tee -a log-install.txt
-echo "   - Squid Proxy	: 3355, 8085 (limit to IP Server)"  | tee -a log-install.txt
+echo "   - Dropbear		: 442, 443"  | tee -a log-install.txt
+echo "   - BadVPN  	: 7300"  | tee -a log-install.txt
+echo "   - Squid Proxy	: 8080, 8000, 3128, 8888 (limit to IP Server)"  | tee -a log-install.txt
 echo "   - Nginx		: 80"  | tee -a log-install.txt
 echo ""  | tee -a log-install.txt
 echo ""  | tee -a log-install.txt
