@@ -120,6 +120,15 @@ sed -i 's@DROPBEAR_BANNER=""@DROPBEAR_BANNER="/etc/issue.net"@g' /etc/default/dr
 service ssh restart
 service dropbear restart
 
+# install badvpn
+wget -O /usr/bin/badvpn-udpgw "https://github.com/johndesu090/AutoScriptDebianStretch/raw/master/Files/Plugins/badvpn-udpgw"
+if [ "$OS" == "x86_64" ]; then
+  wget -O /usr/bin/badvpn-udpgw "https://github.com/johndesu090/AutoScriptDebianStretch/raw/master/Files/Plugins/badvpn-udpgw64"
+fi
+sed -i '$ i\screen -AmdS badvpn badvpn-udpgw --listen-addr 127.0.0.1:7300' /etc/rc.local
+chmod +x /usr/bin/badvpn-udpgw
+screen -AmdS badvpn badvpn-udpgw --listen-addr 127.0.0.1:7300
+
 #install OpenVPN
 cp -r /usr/share/easy-rsa/ /etc/openvpn
 mkdir /etc/openvpn/easy-rsa/keys
@@ -542,6 +551,7 @@ echo "   - Dropbear		: 442"  | tee -a log-install.txt
 echo "   - Stunnel  	: 444"  | tee -a log-install.txt
 echo "   - Squid Proxy	: 3355, 8085 (limit to IP Server)"  | tee -a log-install.txt
 echo "   - Privoxy		: 3356, 8086 (limit to IP Server)"  | tee -a log-install.txt
+echo "   - BadVPN		: 7300"  | tee -a log-install.txt
 echo "   - Nginx		: 80"  | tee -a log-install.txt
 echo ""  | tee -a log-install.txt
 echo ""  | tee -a log-install.txt
