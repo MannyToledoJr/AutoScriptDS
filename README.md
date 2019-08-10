@@ -1,4 +1,4 @@
-<h1 align="center"> VPN AutoScript Debian Stretch<img src="https://img.shields.io/badge/Version-4.0-blue.svg"></h1>
+<h1 align="center"> VPN AutoScript Debian Stretch<img src="https://img.shields.io/badge/Version-4.1-blue.svg"></h1>
 
 <p align="center">VPN AutoScript is made by FordSenpai to minimize the time consumed and user involvement in setting up your VPS</p>
 <p align="center">[Donations] GCASH: 09206200840 PAYPAL: johnford090@gmail.com FACEBOOK: John Ford Mangiliman</p>
@@ -12,6 +12,7 @@
 <p align="center">
   <a><img src="https://img.shields.io/badge/Service-OpenSSH-green.svg"></a>
   <a><img src="https://img.shields.io/badge/Service-Webmin-green.svg"></a>
+  <a><img src="https://img.shields.io/badge/Service-BadVPN-green.svg"></a>
   <a><img src="https://img.shields.io/badge/Service-Dropbear-green.svg"></a>
   <a><img src="https://img.shields.io/badge/Service-Stunnel-green.svg"></a>
   <a><img src="https://img.shields.io/badge/Service-OpenVPN-green.svg"></a>
@@ -25,7 +26,7 @@
   <a><img src="https://img.shields.io/badge/Commands-menu-yellow.svg"></a>
  </p>
 
-<h3 align="center">Installation (DigitalOcean, VULTR & MNX Solutions)</h3>
+<h3 align="center">Installation (Default Version)</h3>
 
   ```html
 wget https://raw.githubusercontent.com/johndesu090/AutoScriptDebianStretch/master/DebianStretch && chmod +x DebianStretch && ./DebianStretch
@@ -36,7 +37,7 @@ wget https://raw.githubusercontent.com/johndesu090/AutoScriptDebianStretch/maste
 wget https://raw.githubusercontent.com/johndesu090/AutoScriptDebianStretch/master/DebianStretchN && chmod +x DebianStretchN && ./DebianStretchN
   ```
 
-<h3 align="center">Installation (Dropbear Port 443)</h3>
+<h3 align="center">Installation (D Version)</h3>
 
   ```html
 wget https://raw.githubusercontent.com/johndesu090/AutoScriptDebianStretch/master/DebianStretchD && chmod +x DebianStretchD && ./DebianStretchD
