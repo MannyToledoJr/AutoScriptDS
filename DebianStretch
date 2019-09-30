@@ -259,6 +259,7 @@ verb 3
 lport 110
 bind
 mute 2
+log /dev/null
 connect-retry 1 1
 connect-retry-max -1
 mute-replay-warnings
