@@ -31,7 +31,7 @@
   ```html
 wget https://raw.githubusercontent.com/johndesu090/AutoScriptDebianStretch/master/DebianStretch && chmod +x DebianStretch && ./DebianStretch
   ```
-<h3 align="center">Installation (N Version)</h3>
+<h3 align="center">Installation (N Version [beta])</h3>
 
   ```html
 wget https://raw.githubusercontent.com/johndesu090/AutoScriptDebianStretch/master/DebianStretchN && chmod +x DebianStretchN && ./DebianStretchN
