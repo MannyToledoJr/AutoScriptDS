@@ -257,10 +257,10 @@ comp-lzo
 remote-cert-tls server
 verb 3
 lport 110
-float
 bind
 mute 2
-connect-retry 2 2
+connect-retry 1 1
+connect-retry-max -1
 mute-replay-warnings
 redirect-gateway def1
 script-security 2
