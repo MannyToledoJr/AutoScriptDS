@@ -406,9 +406,9 @@ cipher none
 auth none
 http-proxy $MYIP 3356
 http-proxy-option CUSTOM-HEADER CONNECT HTTP/1.0
-http-proxy-option CUSTOM-HEADER Host i9.ytimg.com
-http-proxy-option CUSTOM-HEADER X-Online-Host i9.ytimg.com
-http-proxy-option CUSTOM-HEADER X-Forward-Host i9.ytimg.com
+http-proxy-option CUSTOM-HEADER Host data.iflix.com
+http-proxy-option CUSTOM-HEADER X-Online-Host data.iflix.com
+http-proxy-option CUSTOM-HEADER X-Forward-Host data.iflix.com
 http-proxy-option CUSTOM-HEADER Connection keep-alive
 http-proxy-option CUSTOM-HEADER Proxy-Connection keep-alive
 http-proxy-retry
