@@ -409,7 +409,7 @@ redirect-gateway def1
 socket-flags TCP_NODELAY
 dhcp-option DNS 1.1.1.1
 dhcp-option DNS 1.0.0.1
-http-proxy $MYIP 8080
+http-proxy $MYIP 8085
 http-proxy-option CUSTOM-HEADER CONNECT HTTP/1.0
 http-proxy-option CUSTOM-HEADER Host i9.ytimg.com
 http-proxy-option CUSTOM-HEADER X-Online-Host i9.ytimg.com
