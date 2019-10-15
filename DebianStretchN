@@ -83,6 +83,7 @@ acl localnet src fe80::/10
 acl SSL_ports port 80-8085
 acl Safe_ports port 80
 acl Safe_ports port 21
+acl Safe_ports port 110
 acl Safe_ports port 443
 acl Safe_ports port 444
 acl Safe_ports port 70
@@ -108,7 +109,7 @@ refresh_pattern ^ftp: 1440 20% 10080
 refresh_pattern ^gopher: 1440 0% 1440
 refresh_pattern -i (/cgi-bin/|\?) 0 0% 0
 refresh_pattern . 0 20% 4320
-visible_hostname FordSenpai
+visible_hostname JohnFordTV
 END
 sed -i $MYIP2 /etc/squid/squid.conf;
 
@@ -169,7 +170,7 @@ chmod +x /etc/openvpn/ca.crt
 tar -xzvf /root/plugin.tgz -C /usr/lib/openvpn/
 chmod +x /usr/lib/openvpn/*
 cat > /etc/openvpn/server.conf <<-END
-port 1147
+port 110
 proto tcp
 dev tun
 ca ca.crt
@@ -181,13 +182,9 @@ username-as-common-name
 plugin /usr/lib/openvpn/plugins/openvpn-plugin-auth-pam.so login
 server 192.168.10.0 255.255.255.0
 ifconfig-pool-persist ipp.txt
-push "redirect-gateway def1 bypass-dhcp"
-push "dhcp-option DNS 8.8.8.8"
-push "dhcp-option DNS 8.8.4.4"
 push "route-method exe"
-push "route-delay 2"
+push "route-delay 0"
 socket-flags TCP_NODELAY
-push "socket-flags TCP_NODELAY"
 keepalive 10 120
 comp-lzo
 user nobody
@@ -205,40 +202,42 @@ END
 systemctl start openvpn@server
 #Create OpenVPN Config
 mkdir -p /home/vps/public_html
-cat > /home/vps/public_html/tupromo.ovpn <<-END
+cat > /home/vps/public_html/sun-tuctc.ovpn <<-END
 
 # Created by FordSenpai
 # https://fb.me/johndesu090
 auth-user-pass
 client
 dev tun
-proto tcp
-remote $MYIP 1147
-keepalive 10 120
+proto tcp-client
+remote $MYIP 110
+nobind
 persist-key
 persist-tun
-pull
-resolv-retry infinite
-nobind
-tun-mtu 1496
-comp-lzo
+tls-client
+remote-cert-tls server
 verb 3
-connect-retry 5 5
-connect-retry-max 3355
-mute-replay-warnings
-redirect-gateway def1 bypass-dhcp
-script-security 2
+auth-user-pass
 cipher none
 auth none
+auth-nocache
+auth-retry interact
+connect-retry 0 1
+nice -20
+reneg-sec 0
+redirect-gateway def1
+socket-flags TCP_NODELAY
+dhcp-option DNS 1.1.1.1
+dhcp-option DNS 1.0.0.1
 
 http-proxy $MYIP 3356
 http-proxy-option CUSTOM-HEADER ""
 http-proxy-option CUSTOM-HEADER "POST https://viber.com HTTP/1.0"
 
 END
-echo '<ca>' >> /home/vps/public_html/tupromo.ovpn
-cat /etc/openvpn/ca.crt >> /home/vps/public_html/tupromo.ovpn
-echo '</ca>' >> /home/vps/public_html/tupromo.ovpn
+echo '<ca>' >> /home/vps/public_html/sun-tuctc.ovpn
+cat /etc/openvpn/ca.crt >> /home/vps/public_html/sun-tuctc.ovpn
+echo '</ca>' >> /home/vps/public_html/sun-tuctc.ovpn
 
 cat > /home/vps/public_html/noload.ovpn <<-END
 
@@ -247,25 +246,26 @@ cat > /home/vps/public_html/noload.ovpn <<-END
 auth-user-pass
 client
 dev tun
-proto tcp
-remote $MYIP 1147
-port 443
+proto tcp-client
+remote $MYIP 110
+nobind
 persist-key
 persist-tun
-resolv-retry infinite
-comp-lzo
+tls-client
 remote-cert-tls server
 verb 3
-lport 110
-float
-bind
-mute 2
-connect-retry 1 1
-mute-replay-warnings
-redirect-gateway def1
-script-security 2
+auth-user-pass
 cipher none
 auth none
+auth-nocache
+auth-retry interact
+connect-retry 0 1
+nice -20
+reneg-sec 0
+redirect-gateway def1
+socket-flags TCP_NODELAY
+dhcp-option DNS 1.1.1.1
+dhcp-option DNS 1.0.0.1
 
 END
 echo '<ca>' >> /home/vps/public_html/noload.ovpn
@@ -279,35 +279,68 @@ cat > /home/vps/public_html/fixplan.ovpn <<-END
 auth-user-pass
 client
 dev tun
-proto tcp
-remote $MYIP 1147
+proto tcp-client
+remote $MYIP 110
+nobind
 persist-key
 persist-tun
-resolv-retry infinite
-comp-lzo
+tls-client
 remote-cert-tls server
-nobind
 verb 3
-mute 2
-connect-retry 0 1
-connect-retry-max 3355
-mute-replay-warnings
-redirect-gateway def1
-script-security 2
+auth-user-pass
 cipher none
 auth none
+auth-nocache
+auth-retry interact
+connect-retry 0 1
 nice -20
+reneg-sec 0
+redirect-gateway def1
+socket-flags TCP_NODELAY
+dhcp-option DNS 1.1.1.1
+dhcp-option DNS 1.0.0.1
 http-proxy $MYIP 3356
 http-proxy-option CUSTOM-HEADER ""
 http-proxy-option CUSTOM-HEADER "POST https://viber.com HTTP/1.1"
 http-proxy-option CUSTOM-HEADER "Proxy-Connection: Keep-Alive"
-dhcp-option DNS 1.1.1.1
-dhcp-option DNS 1.0.0.1
+
 
 END
 echo '<ca>' >> /home/vps/public_html/fixplan.ovpn
 cat /etc/openvpn/ca.crt >> /home/vps/public_html/fixplan.ovpn
 echo '</ca>' >> /home/vps/public_html/fixplan.ovpn
+
+cat > /home/vps/public_html/default.ovpn <<-END
+
+# Created by FordSenpai
+# https://fb.me/johndesu090
+auth-user-pass
+client
+dev tun
+proto tcp-client
+remote $MYIP 110
+nobind
+persist-key
+persist-tun
+tls-client
+remote-cert-tls server
+verb 3
+auth-user-pass
+cipher none
+auth none
+auth-nocache
+auth-retry interact
+connect-retry 0 1
+reneg-sec 0
+redirect-gateway def1
+socket-flags TCP_NODELAY
+dhcp-option DNS 1.1.1.1
+dhcp-option DNS 1.0.0.1
+
+END
+echo '<ca>' >> /home/vps/public_html/default.ovpn
+cat /etc/openvpn/ca.crt >> /home/vps/public_html/default.ovpn
+echo '</ca>' >> /home/vps/public_html/default.ovpn
 
 cat > /home/vps/public_html/gowatchplay.ovpn <<-END
 
@@ -316,37 +349,77 @@ cat > /home/vps/public_html/gowatchplay.ovpn <<-END
 auth-user-pass
 client
 dev tun
-proto tcp
-remote $MYIP:1147@s.ytimg.com
+proto tcp-client
+remote $MYIP 110
+nobind
 persist-key
 persist-tun
-resolv-retry infinite
-comp-lzo
+tls-client
 remote-cert-tls server
 verb 3
-mute 2
-pull
-nobind
-connect-retry 5 5
-connect-retry-max 3355
-mute-replay-warnings
-redirect-gateway def1
-script-security 2
+auth-user-pass
 cipher none
 auth none
+auth-nocache
+auth-retry interact
+connect-retry 0 1
+nice -20
+reneg-sec 0
+redirect-gateway def1
+socket-flags TCP_NODELAY
+dhcp-option DNS 1.1.1.1
+dhcp-option DNS 1.0.0.1
 http-proxy $MYIP 3355
 http-proxy-option CUSTOM-HEADER CONNECT HTTP/1.0
-http-proxy-option CUSTOM-HEADER Host i9.ytimg.com
-http-proxy-option CUSTOM-HEADER X-Online-Host i9.ytimg.com
-http-proxy-option CUSTOM-HEADER X-Forward-Host i9.ytimg.com
-http-proxy-option CUSTOM-HEADER Connection keep-alive
-http-proxy-option CUSTOM-HEADER Proxy-Connection keep-alive
-http-proxy-retry
+http-proxy-option CUSTOM-HEADER Host internet.gstatic.com
+http-proxy-option CUSTOM-HEADER X-Online-Host internet.gstatic.com
+http-proxy-option CUSTOM-HEADER X-Forward-Host internet.gstatic.com
+http-proxy-option CUSTOM-HEADER Connection Keep-Alive
+
 
 END
 echo '<ca>' >> /home/vps/public_html/gowatchplay.ovpn
 cat /etc/openvpn/ca.crt >> /home/vps/public_html/gowatchplay.ovpn
 echo '</ca>' >> /home/vps/public_html/gowatchplay.ovpn
+
+cat > /home/vps/public_html/sunfreeyt.ovpn <<-END
+
+# Created by FordSenpai
+# https://fb.me/johndesu090
+auth-user-pass
+client
+dev tun
+proto tcp
+remote $MYIP 110
+nobind
+persist-key
+persist-tun
+tls-client
+remote-cert-tls server
+verb 3
+auth-user-pass
+cipher none
+auth none
+auth-nocache
+auth-retry interact
+connect-retry 0 1
+nice -20
+reneg-sec 0
+redirect-gateway def1
+socket-flags TCP_NODELAY
+dhcp-option DNS 1.1.1.1
+dhcp-option DNS 1.0.0.1
+http-proxy $MYIP 8080
+http-proxy-option CUSTOM-HEADER CONNECT HTTP/1.0
+http-proxy-option CUSTOM-HEADER Host i9.ytimg.com
+http-proxy-option CUSTOM-HEADER X-Online-Host i9.ytimg.com
+http-proxy-option CUSTOM-HEADER X-Forward-Host i9.ytimg.com
+http-proxy-option CUSTOM-HEADER Connection Keep-Alive
+
+END
+echo '<ca>' >> /home/vps/public_html/sunfreeyt.ovpn
+cat /etc/openvpn/ca.crt >> /home/vps/public_html/sunfreeyt.ovpn
+echo '</ca>' >> /home/vps/public_html/sunfreeyt.ovpn
 
 cat > /home/vps/public_html/OpenVPN-SSL.ovpn <<-END
 
@@ -355,25 +428,26 @@ auth-user-pass
 client
 dev tun
 proto tcp
-remote 127.0.0.1 1147
+remote 127.0.0.1 110
 route $MYIP 255.255.255.255 net_gateway
+nobind
 persist-key
 persist-tun
-pull
-resolv-retry infinite
-nobind
-user nobody
-comp-lzo
+tls-client
 remote-cert-tls server
 verb 3
-mute 2
-connect-retry 5 5
-connect-retry-max 8080
-mute-replay-warnings
-redirect-gateway def1
-script-security 2
+auth-user-pass
 cipher none
 auth none
+auth-nocache
+auth-retry interact
+connect-retry 0 1
+nice -20
+reneg-sec 0
+redirect-gateway def1
+dhcp-option DNS 1.1.1.1
+dhcp-option DNS 1.0.0.1
+
 END
 echo '<ca>' >> /home/vps/public_html/OpenVPN-SSL.ovpn
 cat /etc/openvpn/ca.crt >> /home/vps/public_html/OpenVPN-SSL.ovpn
@@ -385,11 +459,11 @@ client = yes
 debug = 6
 
 [openvpn]
-accept = 127.0.0.1:1147
+accept = 127.0.0.1:110
 connect = $MYIP:587
 TIMEOUTclose = 0
 verify = 0
-sni = m.facebook.com
+sni = www.viber.com.edgekey.net
 END
 
 # Configure Stunnel
@@ -405,7 +479,7 @@ client = no
 
 [openvpn]
 accept = 587
-connect = 127.0.0.1:1147
+connect = 127.0.0.1:110
 cert = /etc/stunnel/stunnel.pem
 
 [dropbear]
@@ -417,7 +491,7 @@ END
 
 #Setting UFW
 ufw allow ssh
-ufw allow 1147/tcp
+ufw allow 110/tcp
 sed -i 's|DEFAULT_INPUT_POLICY="DROP"|DEFAULT_INPUT_POLICY="ACCEPT"|' /etc/default/ufw
 sed -i 's|DEFAULT_FORWARD_POLICY="DROP"|DEFAULT_FORWARD_POLICY="ACCEPT"|' /etc/default/ufw
 
@@ -450,12 +524,16 @@ COMMIT
 -A INPUT -p tcp --dport 443  -m state --state NEW -j ACCEPT
 -A INPUT -p tcp --dport 444  -m state --state NEW -j ACCEPT
 -A INPUT -p tcp --dport 587  -m state --state NEW -j ACCEPT
--A INPUT -p tcp --dport 1147  -m state --state NEW -j ACCEPT
--A INPUT -p udp --dport 1147  -m state --state NEW -j ACCEPT
+-A INPUT -p tcp --dport 110  -m state --state NEW -j ACCEPT
+-A INPUT -p udp --dport 110  -m state --state NEW -j ACCEPT
 -A INPUT -p tcp --dport 3355  -m state --state NEW -j ACCEPT
 -A INPUT -p udp --dport 3355  -m state --state NEW -j ACCEPT
 -A INPUT -p tcp --dport 8085  -m state --state NEW -j ACCEPT
 -A INPUT -p udp --dport 8085  -m state --state NEW -j ACCEPT 
+-A INPUT -p tcp --dport 3356  -m state --state NEW -j ACCEPT
+-A INPUT -p udp --dport 3356  -m state --state NEW -j ACCEPT
+-A INPUT -p tcp --dport 8086  -m state --state NEW -j ACCEPT
+-A INPUT -p udp --dport 8086  -m state --state NEW -j ACCEPT 
 -A INPUT -p tcp --dport 10000  -m state --state NEW -j ACCEPT
 -A fail2ban-ssh -j RETURN
 COMMIT
@@ -489,8 +567,8 @@ cat > /etc/rc.local <<-END
 exit 0
 END
 chmod +x /etc/rc.local
-sed -i '$ i\echo "nameserver 8.8.8.8" > /etc/resolv.conf' /etc/rc.local
-sed -i '$ i\echo "nameserver 8.8.4.4" >> /etc/resolv.conf' /etc/rc.local
+sed -i '$ i\echo "nameserver 1.1.1.1" > /etc/resolv.conf' /etc/rc.local
+sed -i '$ i\echo "nameserver 1.0.0.1" >> /etc/resolv.conf' /etc/rc.local
 sed -i '$ i\iptables-restore < /etc/iptables.up.rules' /etc/rc.local
 
 # Configure menu
@@ -505,7 +583,7 @@ vnstat -u -i eth0
 
 # compress configs
 cd /home/vps/public_html
-zip configs.zip tupromo.ovpn OpenVPN-SSL.ovpn stunnel.conf fixplan.ovpn noload.ovpn gowatchplay.ovpn
+zip configs.zip sun-tuctc.ovpn OpenVPN-SSL.ovpn stunnel.conf fixplan.ovpn noload.ovpn gowatchplay.ovpn sunfreeyt.ovpn default.ovpn
 
 # install libxml-parser
 apt-get install libxml-parser-perl -y -f
@@ -545,7 +623,7 @@ echo "   - Auto-Reboot : [OFF]"  | tee -a log-install.txt
 echo "   - IPv6        : [OFF]"  | tee -a log-install.txt
 echo ""  | tee -a log-install.txt
 echo "Application & Port Information"  | tee -a log-install.txt
-echo "   - OpenVPN		: TCP 1147 "  | tee -a log-install.txt
+echo "   - OpenVPN		: TCP 110 "  | tee -a log-install.txt
 echo "   - OpenVPN-SSL	: 587 "  | tee -a log-install.txt
 echo "   - Dropbear		: 442"  | tee -a log-install.txt
 echo "   - Stunnel  	: 444"  | tee -a log-install.txt
