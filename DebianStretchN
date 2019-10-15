@@ -214,6 +214,7 @@ remote $MYIP 110
 nobind
 persist-key
 persist-tun
+comp-lzo
 tls-client
 remote-cert-tls server
 verb 3
@@ -251,6 +252,7 @@ remote $MYIP 110
 nobind
 persist-key
 persist-tun
+comp-lzo
 tls-client
 remote-cert-tls server
 verb 3
@@ -284,6 +286,7 @@ remote $MYIP 110
 nobind
 persist-key
 persist-tun
+comp-lzo
 tls-client
 remote-cert-tls server
 verb 3
@@ -322,6 +325,7 @@ remote $MYIP 110
 nobind
 persist-key
 persist-tun
+comp-lzo
 tls-client
 remote-cert-tls server
 verb 3
@@ -354,6 +358,7 @@ remote $MYIP 110
 nobind
 persist-key
 persist-tun
+comp-lzo
 tls-client
 remote-cert-tls server
 verb 3
@@ -394,6 +399,7 @@ remote $MYIP 110
 nobind
 persist-key
 persist-tun
+comp-lzo
 tls-client
 remote-cert-tls server
 verb 3
@@ -433,6 +439,7 @@ route $MYIP 255.255.255.255 net_gateway
 nobind
 persist-key
 persist-tun
+comp-lzo
 tls-client
 remote-cert-tls server
 verb 3
