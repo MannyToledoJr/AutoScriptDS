@@ -417,9 +417,9 @@ dhcp-option DNS 1.1.1.1
 dhcp-option DNS 1.0.0.1
 http-proxy $MYIP 8085
 http-proxy-option CUSTOM-HEADER CONNECT HTTP/1.0
-http-proxy-option CUSTOM-HEADER Host i9.ytimg.com
-http-proxy-option CUSTOM-HEADER X-Online-Host i9.ytimg.com
-http-proxy-option CUSTOM-HEADER X-Forward-Host i9.ytimg.com
+http-proxy-option CUSTOM-HEADER Host data.iflix.com
+http-proxy-option CUSTOM-HEADER X-Online-Host data.iflix.com
+http-proxy-option CUSTOM-HEADER X-Forward-Host data.iflix.com
 http-proxy-option CUSTOM-HEADER Connection Keep-Alive
 
 END
