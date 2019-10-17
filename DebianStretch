@@ -215,6 +215,7 @@ nobind
 persist-key
 persist-tun
 comp-lzo
+keepalive 10 120
 tls-client
 remote-cert-tls server
 verb 3
@@ -253,6 +254,7 @@ nobind
 persist-key
 persist-tun
 comp-lzo
+keepalive 10 120
 tls-client
 remote-cert-tls server
 verb 3
@@ -287,6 +289,7 @@ nobind
 persist-key
 persist-tun
 comp-lzo
+keepalive 10 120
 tls-client
 remote-cert-tls server
 verb 3
@@ -326,6 +329,7 @@ nobind
 persist-key
 persist-tun
 comp-lzo
+keepalive 10 120
 tls-client
 remote-cert-tls server
 verb 3
@@ -359,6 +363,7 @@ nobind
 persist-key
 persist-tun
 comp-lzo
+keepalive 10 120
 tls-client
 remote-cert-tls server
 verb 3
@@ -400,6 +405,7 @@ nobind
 persist-key
 persist-tun
 comp-lzo
+keepalive 10 120
 tls-client
 remote-cert-tls server
 verb 3
@@ -440,6 +446,7 @@ nobind
 persist-key
 persist-tun
 comp-lzo
+keepalive 10 120
 tls-client
 remote-cert-tls server
 verb 3
