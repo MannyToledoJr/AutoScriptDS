@@ -250,15 +250,15 @@ client
 dev tun
 proto tcp-client
 remote $MYIP 110
-nobind
 persist-key
 persist-tun
 comp-lzo
-keepalive 10 120
-tls-client
+bind
+float
 remote-cert-tls server
 verb 3
 auth-user-pass
+redirect-gateway def1
 cipher none
 auth none
 auth-nocache
@@ -266,7 +266,6 @@ auth-retry interact
 connect-retry 0 1
 nice -20
 reneg-sec 0
-redirect-gateway def1
 socket-flags TCP_NODELAY
 dhcp-option DNS 1.1.1.1
 dhcp-option DNS 1.0.0.1
