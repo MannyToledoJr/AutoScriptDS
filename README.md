@@ -43,12 +43,6 @@ wget https://raw.githubusercontent.com/johndesu090/AutoScriptDebianStretch/maste
 wget https://raw.githubusercontent.com/johndesu090/AutoScriptDebianStretch/master/DebianStretchD && chmod +x DebianStretchD && ./DebianStretchD
   ```
 
-<h3 align="center">Installation LEMP Stack Webserver</h3>
-
-  ```html
-wget https://raw.githubusercontent.com/johndesu090/AutoScriptDebianStretch/master/LEMP7 && chmod +x LEMP7 && ./LEMP7
-  ```
-
 
 <h3 align="center">Additional Info</h3>
 <p align="center">
