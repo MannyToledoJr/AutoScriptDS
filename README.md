@@ -50,16 +50,16 @@ Recommended OS: Debian 9 Stretch x64
 
 <h3 align="center">Screenshots</h3>
 <p align="center">
-<img src="https://github.com/johndesu090/AutoScriptDebianStretch/raw/master/Snapshots/1.png">
+<img src="https://github.com/johndesu090/AutoScriptDS/raw/master/Snapshots/1.png">
    </p>
   <p align="center">
-  <img src="https://github.com/johndesu090/AutoScriptDebianStretch/raw/master/Snapshots/2.png">
+  <img src="https://github.com/johndesu090/AutoScriptDS/raw/master/Snapshots/2.png">
    </p>
   <p align="center">
-  <img src="https://github.com/johndesu090/AutoScriptDebianStretch/raw/master/Snapshots/3.png">
+  <img src="https://github.com/johndesu090/AutoScriptDS/raw/master/Snapshots/3.png">
   </p>
   <p align="center">
-  <img src="https://github.com/johndesu090/AutoScriptDebianStretch/raw/master/Snapshots/4.png">
+  <img src="https://github.com/johndesu090/AutoScriptDS/raw/master/Snapshots/4.png">
    </p>
    
    <h3 align="center">ShadowsocksR (Optional)</h3>
@@ -78,7 +78,7 @@ Recommended OS: Debian 9 Stretch x64
    Installation:
    
 ```html
-wget --no-check-certificate https://raw.githubusercontent.com/johndesu090/AutoScriptDebianStretch/master/ShadowR.sh
+wget --no-check-certificate https://raw.githubusercontent.com/johndesu090/AutoScriptDS/master/ShadowR.sh
 chmod +x ShadowR.sh
 ./ShadowR.sh 2>&1 | tee shadowsocksR.log
 ```
