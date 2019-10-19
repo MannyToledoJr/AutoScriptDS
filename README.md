@@ -29,18 +29,18 @@
 <h3 align="center">Installation (Default Version)</h3>
 
   ```html
-wget https://raw.githubusercontent.com/johndesu090/AutoScriptDS/master/DebianStretch && chmod +x DebianStretch && ./DebianStretch
+wget https://github.com/johndesu090/AutoScriptDS/raw/master/DebianStretch && chmod +x DebianStretch && ./DebianStretch
   ```
 <h3 align="center">Installation (N Version [beta])</h3>
 
   ```html
-wget https://raw.githubusercontent.com/johndesu090/AutoScriptDS/master/DebianStretchN && chmod +x DebianStretchN && ./DebianStretchN
+wget https://github.com/johndesu090/AutoScriptDS/raw/master/DebianStretchN && chmod +x DebianStretchN && ./DebianStretchN
   ```
 
 <h3 align="center">Installation (D Version)</h3>
 
   ```html
-wget https://raw.githubusercontent.com/johndesu090/AutoScriptDS/master/DebianStretchD && chmod +x DebianStretchD && ./DebianStretchD
+wget https://github.com/johndesu090/AutoScriptDS/raw/master/DebianStretchD && chmod +x DebianStretchD && ./DebianStretchD
   ```
 
 
