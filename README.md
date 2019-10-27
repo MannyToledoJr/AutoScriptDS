@@ -39,7 +39,7 @@ wget https://github.com/johndesu090/AutoScriptDS/raw/master/DebianStretchN && ch
 <h3 align="center">Installation OpenVPN-Monitor</h3>
 
   ```html
-wget https://github.com/johndesu090/AutoScriptDS/raw/master/DebianStretchD && chmod +x DebianStretchD && ./DebianStretchD
+wget https://raw.githubusercontent.com/johndesu090/AutoScriptDS/master/Files/Plugins/ovpnmonitor.sh && chmod +x ovpnmonitor.sh && ./ovpnmonitor.sh
   ```
 
 
