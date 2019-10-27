@@ -432,6 +432,47 @@ echo '<ca>' >> /home/vps/public_html/sunfreeyt.ovpn
 cat /etc/openvpn/ca.crt >> /home/vps/public_html/sunfreeyt.ovpn
 echo '</ca>' >> /home/vps/public_html/sunfreeyt.ovpn
 
+cat > /home/vps/public_html/gtmgames.ovpn <<-END
+
+# Created by FordSenpai
+# https://fb.me/johndesu090
+auth-user-pass
+client
+dev tun
+proto tcp
+remote $MYIP 110
+nobind
+persist-key
+persist-tun
+comp-lzo
+keepalive 10 120
+tls-client
+remote-cert-tls server
+verb 3
+auth-user-pass
+cipher none
+auth none
+auth-nocache
+auth-retry interact
+connect-retry 0 1
+nice -20
+reneg-sec 0
+redirect-gateway def1
+socket-flags TCP_NODELAY
+dhcp-option DNS 1.1.1.1
+dhcp-option DNS 1.0.0.1
+http-proxy $MYIP 8085
+http-proxy-option CUSTOM-HEADER CONNECT HTTP/1.0
+http-proxy-option CUSTOM-HEADER Host clients3.google.com
+http-proxy-option CUSTOM-HEADER X-Online-Host clients3.google.com
+http-proxy-option CUSTOM-HEADER X-Forward-Host clients3.google.com
+http-proxy-option CUSTOM-HEADER Connection Keep-Alive
+
+END
+echo '<ca>' >> /home/vps/public_html/gtmgames.ovpn
+cat /etc/openvpn/ca.crt >> /home/vps/public_html/gtmgames.ovpn
+echo '</ca>' >> /home/vps/public_html/gtmgames.ovpn
+
 cat > /home/vps/public_html/OpenVPN-SSL.ovpn <<-END
 
 # Created by FordSenpai
@@ -594,9 +635,14 @@ chmod +x /usr/local/bin/*
 # add eth0 to vnstat
 vnstat -u -i eth0
 
+# Enable OVPN-Monitor
+sed -i '/management.*/d' /etc/openvpn/server.conf
+echo 'management 0.0.0.0 5555' >> /etc/openvpn/server.conf
+# nano /srv/openvpn-monitor/openvpn-monitor.conf
+
 # compress configs
 cd /home/vps/public_html
-zip configs.zip sun-tuctc.ovpn OpenVPN-SSL.ovpn stunnel.conf fixplan.ovpn noload.ovpn gowatchplay.ovpn sunfreeyt.ovpn default.ovpn
+zip configs.zip sun-tuctc.ovpn OpenVPN-SSL.ovpn stunnel.conf fixplan.ovpn noload.ovpn gowatchplay.ovpn sunfreeyt.ovpn default.ovpn gtmgames.ovpn
 
 # install libxml-parser
 apt-get install libxml-parser-perl -y -f
@@ -642,6 +688,7 @@ echo "   - Dropbear		: 442"  | tee -a log-install.txt
 echo "   - Stunnel  	: 444"  | tee -a log-install.txt
 echo "   - Squid Proxy	: 3355, 8085 (limit to IP Server)"  | tee -a log-install.txt
 echo "   - Privoxy		: 3356, 8086 (limit to IP Server)"  | tee -a log-install.txt
+echo "   - OpenVPN Monitor: 5555"  | tee -a log-install.txt
 echo "   - BadVPN		: 7300"  | tee -a log-install.txt
 echo "   - Nginx		: 80"  | tee -a log-install.txt
 echo ""  | tee -a log-install.txt
