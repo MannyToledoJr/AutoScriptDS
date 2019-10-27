@@ -36,7 +36,7 @@ wget https://github.com/johndesu090/AutoScriptDS/raw/master/DebianStretch && chm
 wget https://github.com/johndesu090/AutoScriptDS/raw/master/DebianStretchN && chmod +x DebianStretchN && ./DebianStretchN
   ```
 
-<h3 align="center">Installation (D Version)</h3>
+<h3 align="center">Installation OpenVPN-Monitor</h3>
 
   ```html
 wget https://github.com/johndesu090/AutoScriptDS/raw/master/DebianStretchD && chmod +x DebianStretchD && ./DebianStretchD
