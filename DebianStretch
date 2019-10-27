@@ -582,6 +582,10 @@ COMMIT
 -A INPUT -p udp --dport 110  -m state --state NEW -j ACCEPT
 -A INPUT -p tcp --dport 3355  -m state --state NEW -j ACCEPT
 -A INPUT -p udp --dport 3355  -m state --state NEW -j ACCEPT
+-A INPUT -p tcp --dport 5555  -m state --state NEW -j ACCEPT
+-A INPUT -p udp --dport 5555  -m state --state NEW -j ACCEPT 
+-A INPUT -p tcp --dport 5556  -m state --state NEW -j ACCEPT
+-A INPUT -p udp --dport 5556  -m state --state NEW -j ACCEPT 
 -A INPUT -p tcp --dport 8085  -m state --state NEW -j ACCEPT
 -A INPUT -p udp --dport 8085  -m state --state NEW -j ACCEPT 
 -A INPUT -p tcp --dport 3356  -m state --state NEW -j ACCEPT
