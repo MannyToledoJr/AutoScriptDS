@@ -2,6 +2,7 @@
 
 <p align="center">VPN AutoScript is made by FordSenpai to minimize the time consumed and user involvement in setting up your VPS</p>
 <p align="center">[Donations] GCASH: 09206200840 PAYPAL: johnford090@gmail.com FACEBOOK: John Ford Mangiliman</p>
+<p align="center">Facebook Support: https://www.facebook.com/johndesu090</p>
 
 <h3 align="center">Supported Linux Distribution</h3>
 <p align="center">
@@ -114,5 +115,4 @@ Status: /etc/init.d/shadowsocks status
 }
 ```
 
-Facebook Support: https://www.facebook.com/johndesu090
    </p>
