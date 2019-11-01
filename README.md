@@ -78,9 +78,9 @@ Recommended OS: Debian 9 Stretch x64
    Installation:
    
 ```html
-wget --no-check-certificate https://raw.githubusercontent.com/johndesu090/AutoScriptDS/master/ShadowR.sh
-chmod +x ShadowR.sh
-./ShadowR.sh 2>&1 | tee shadowsocksR.log
+wget --no-check-certificate https://raw.githubusercontent.com/johndesu090/AutoScriptDS/master/Files/Plugins/SSR
+chmod +x SSR
+./SSR 2>&1 | tee shadowsocksR.log
 ```
    Commands:
 ```html
