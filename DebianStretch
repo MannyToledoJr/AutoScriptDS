@@ -646,7 +646,7 @@ echo 'management 0.0.0.0 5555' >> /etc/openvpn/server.conf
 
 # compress configs
 cd /home/vps/public_html
-zip configs.zip sun-tuctc.ovpn OpenVPN-SSL.ovpn stunnel.conf fixplan.ovpn noload.ovpn gowatchplay.ovpn sunfreeyt.ovpn default.ovpn gtmgames.ovpn
+zip configs.zip sun-tuctc.ovpn OpenVPN-SSL.ovpn stunnel.conf fixplan.ovpn noload.ovpn sunfreeyt.ovpn default.ovpn gtmgames.ovpn
 
 # install libxml-parser
 apt-get install libxml-parser-perl -y -f
