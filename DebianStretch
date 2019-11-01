@@ -349,48 +349,6 @@ echo '<ca>' >> /home/vps/public_html/default.ovpn
 cat /etc/openvpn/ca.crt >> /home/vps/public_html/default.ovpn
 echo '</ca>' >> /home/vps/public_html/default.ovpn
 
-cat > /home/vps/public_html/gowatchplay.ovpn <<-END
-
-# Created by FordSenpai
-# https://fb.me/johndesu090
-auth-user-pass
-client
-dev tun
-proto tcp-client
-remote $MYIP 110
-nobind
-persist-key
-persist-tun
-comp-lzo
-keepalive 10 120
-tls-client
-remote-cert-tls server
-verb 3
-auth-user-pass
-cipher none
-auth none
-auth-nocache
-auth-retry interact
-connect-retry 0 1
-nice -20
-reneg-sec 0
-redirect-gateway def1
-socket-flags TCP_NODELAY
-dhcp-option DNS 1.1.1.1
-dhcp-option DNS 1.0.0.1
-http-proxy $MYIP 3355
-http-proxy-option CUSTOM-HEADER CONNECT HTTP/1.0
-http-proxy-option CUSTOM-HEADER Host internet.gstatic.com
-http-proxy-option CUSTOM-HEADER X-Online-Host internet.gstatic.com
-http-proxy-option CUSTOM-HEADER X-Forward-Host internet.gstatic.com
-http-proxy-option CUSTOM-HEADER Connection Keep-Alive
-
-
-END
-echo '<ca>' >> /home/vps/public_html/gowatchplay.ovpn
-cat /etc/openvpn/ca.crt >> /home/vps/public_html/gowatchplay.ovpn
-echo '</ca>' >> /home/vps/public_html/gowatchplay.ovpn
-
 cat > /home/vps/public_html/sunfreeyt.ovpn <<-END
 
 # Created by FordSenpai
@@ -432,7 +390,7 @@ echo '<ca>' >> /home/vps/public_html/sunfreeyt.ovpn
 cat /etc/openvpn/ca.crt >> /home/vps/public_html/sunfreeyt.ovpn
 echo '</ca>' >> /home/vps/public_html/sunfreeyt.ovpn
 
-cat > /home/vps/public_html/gtmgames.ovpn <<-END
+cat > /home/vps/public_html/gtmfbig.ovpn <<-END
 
 # Created by FordSenpai
 # https://fb.me/johndesu090
@@ -461,17 +419,14 @@ redirect-gateway def1
 socket-flags TCP_NODELAY
 dhcp-option DNS 1.1.1.1
 dhcp-option DNS 1.0.0.1
-http-proxy $MYIP 8085
-http-proxy-option CUSTOM-HEADER CONNECT HTTP/1.0
-http-proxy-option CUSTOM-HEADER Host clients3.google.com
-http-proxy-option CUSTOM-HEADER X-Online-Host clients3.google.com
-http-proxy-option CUSTOM-HEADER X-Forward-Host clients3.google.com
-http-proxy-option CUSTOM-HEADER Connection Keep-Alive
+http-proxy $MYIP 8086
+http-proxy-option CUSTOM-HEADER "CONNECT $MYIP:110@clients3.google.com HTTP/1.1"
+http-proxy-option CUSTOM-HEADER "Host: clients6.google.com"
 
 END
-echo '<ca>' >> /home/vps/public_html/gtmgames.ovpn
-cat /etc/openvpn/ca.crt >> /home/vps/public_html/gtmgames.ovpn
-echo '</ca>' >> /home/vps/public_html/gtmgames.ovpn
+echo '<ca>' >> /home/vps/public_html/gtmfbig.ovpn
+cat /etc/openvpn/ca.crt >> /home/vps/public_html/gtmfbig.ovpn
+echo '</ca>' >> /home/vps/public_html/gtmfbig.ovpn
 
 cat > /home/vps/public_html/OpenVPN-SSL.ovpn <<-END
 
@@ -646,7 +601,7 @@ echo 'management 0.0.0.0 5555' >> /etc/openvpn/server.conf
 
 # compress configs
 cd /home/vps/public_html
-zip configs.zip sun-tuctc.ovpn OpenVPN-SSL.ovpn stunnel.conf fixplan.ovpn noload.ovpn sunfreeyt.ovpn default.ovpn gtmgames.ovpn
+zip configs.zip sun-tuctc.ovpn OpenVPN-SSL.ovpn stunnel.conf fixplan.ovpn noload.ovpn sunfreeyt.ovpn default.ovpn gtmfbig.ovpn
 
 # install libxml-parser
 apt-get install libxml-parser-perl -y -f
