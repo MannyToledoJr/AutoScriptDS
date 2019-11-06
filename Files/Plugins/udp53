@@ -169,8 +169,8 @@ chmod +x /etc/openvpn/ca.crt
 tar -xzvf /root/plugin.tgz -C /usr/lib/openvpn/
 chmod +x /usr/lib/openvpn/*
 cat > /etc/openvpn/server.conf <<-END
-port 110
-proto tcp
+port 53
+proto udp
 dev tun
 ca ca.crt
 cert server.crt
