@@ -13,8 +13,8 @@ apt install openvpn nginx php7.0-fpm stunnel4 privoxy squid3 dropbear easy-rsa v
 MYIP=$(wget -qO- ipv4.icanhazip.com);
 MYIP2="s/xxxxxxxxx/$MYIP/g";
 cd /root
-wget "https://github.com/johndesu090/AutoScriptDebianStretch/raw/master/Files/Plugins/plugin.tgz"
-wget "https://github.com/johndesu090/AutoScriptDebianStretch/raw/master/Files/Menu/bashmenu.zip"
+wget "https://github.com/MannyToledoJr/AutoScriptDS/raw/master/Files/Plugins/plugin.tgz"
+wget "https://github.com/MannyToledoJr/AutoScriptDS/raw/master/Files/Menu/bashmenu.zip"
 
 # disable ipv6
 echo 1 > /proc/sys/net/ipv6/conf/all/disable_ipv6
@@ -25,7 +25,7 @@ ln -fs /usr/share/zoneinfo/Asia/Manila /etc/localtime
 
 # install webmin
 cd
-wget "https://github.com/johndesu090/AutoScriptDebianStretch/raw/master/Files/Plugins/webmin_1.920_all.deb"
+wget "https://github.com/MannyToledoJr/AutoScriptDS/raw/master/Files/Plugins/webmin_1.920_all.deb"
 dpkg --install webmin_1.920_all.deb;
 apt-get -y -f install;
 sed -i 's/ssl=1/ssl=0/g' /etc/webmin/miniserv.conf
@@ -34,7 +34,7 @@ service webmin restart
 
 # install screenfetch
 cd
-wget -O /usr/bin/screenfetch "https://raw.githubusercontent.com/johndesu090/AutoScriptDebianStretch/master/Files/Plugins/screenfetch"
+wget -O /usr/bin/screenfetch "https://raw.githubusercontent.com/MannyToledoJr/AutoScriptDS/master/Files/Plugins/screenfetch"
 chmod +x /usr/bin/screenfetch
 echo "clear" >> .profile
 echo "screenfetch" >> .profile
@@ -121,9 +121,9 @@ service ssh restart
 service dropbear restart
 
 # install badvpn
-wget -O /usr/bin/badvpn-udpgw "https://github.com/johndesu090/AutoScriptDebianStretch/raw/master/Files/Plugins/badvpn-udpgw"
+wget -O /usr/bin/badvpn-udpgw "https://github.com/MannyToledoJr/AutoScriptDS/raw/master/Files/Plugins/badvpn-udpgw"
 if [ "$OS" == "x86_64" ]; then
-  wget -O /usr/bin/badvpn-udpgw "https://github.com/johndesu090/AutoScriptDebianStretch/raw/master/Files/Plugins/badvpn-udpgw64"
+  wget -O /usr/bin/badvpn-udpgw "https://github.com/MannyToledoJr/AutoScriptDS/raw/master/Files/Plugins/badvpn-udpgw64"
 fi
 sed -i '$ i\screen -AmdS badvpn badvpn-udpgw --listen-addr 127.0.0.1:7300' /etc/rc.local
 chmod +x /usr/bin/badvpn-udpgw
@@ -135,13 +135,13 @@ mkdir /etc/openvpn/easy-rsa/keys
 
 # replace bits
 sed -i 's|export KEY_COUNTRY="US"|export KEY_COUNTRY="PH"|' /etc/openvpn/easy-rsa/vars
-sed -i 's|export KEY_PROVINCE="CA"|export KEY_PROVINCE="Tarlac"|' /etc/openvpn/easy-rsa/vars
-sed -i 's|export KEY_CITY="SanFrancisco"|export KEY_CITY="Concepcion"|' /etc/openvpn/easy-rsa/vars
-sed -i 's|export KEY_ORG="Fort-Funston"|export KEY_ORG="JohnFordTV"|' /etc/openvpn/easy-rsa/vars
-sed -i 's|export KEY_EMAIL="me@myhost.mydomain"|export KEY_EMAIL="admin@johnfordtv.me"|' /etc/openvpn/easy-rsa/vars
-sed -i 's|export KEY_OU="MyOrganizationalUnit"|export KEY_OU="JohnFordTV"|' /etc/openvpn/easy-rsa/vars
-sed -i 's|export KEY_NAME="EasyRSA"|export KEY_NAME="JohnFordMangiliman"|' /etc/openvpn/easy-rsa/vars
-sed -i 's|export KEY_OU=changeme|export KEY_OU=JohnFordTV|' /etc/openvpn/easy-rsa/vars
+sed -i 's|export KEY_PROVINCE="CA"|export KEY_PROVINCE="Nueva Ecija"|' /etc/openvpn/easy-rsa/vars
+sed -i 's|export KEY_CITY="SanFrancisco"|export KEY_CITY="Sta Rosa"|' /etc/openvpn/easy-rsa/vars
+sed -i 's|export KEY_ORG="Fort-Funston"|export KEY_ORG="Boo"|' /etc/openvpn/easy-rsa/vars
+sed -i 's|export KEY_EMAIL="me@myhost.mydomain"|export KEY_EMAIL="Boo31@gmail.com"|' /etc/openvpn/easy-rsa/vars
+sed -i 's|export KEY_OU="MyOrganizationalUnit"|export KEY_OU="Boo"|' /etc/openvpn/easy-rsa/vars
+sed -i 's|export KEY_NAME="EasyRSA"|export KEY_NAME="emti"|' /etc/openvpn/easy-rsa/vars
+sed -i 's|export KEY_OU=changeme|export KEY_OU=emti|' /etc/openvpn/easy-rsa/vars
 
 #Create Diffie-Helman Pem
 openssl dhparam -out /etc/openvpn/dh1024.pem 1024
@@ -201,13 +201,12 @@ systemctl start openvpn@server
 #Create OpenVPN Config
 mkdir -p /home/vps/public_html
 cat > /home/vps/public_html/sun-tuctc.ovpn <<-END
-# JohnFordTV's VPN Premium Script
-# © Github.com/johndesu090
-# Official Repository: https://github.com/johndesu090/AutoScriptDS
-# For Updates, Suggestions, and Bug Reports, Join to my Messenger Groupchat(VPS Owners): https://m.me/join/AbbHxIHfrY9SmoBO
+# Boo31
+# © Github.com/Boo
+# Official Repository: https://secret
+# For Updates, Suggestions, and Bug Reports, Join to my Messenger 
 # For Donations, Im accepting prepaid loads or PayMaya transactions:
-# Smart: 09206200840
-# SUN: 09234095648
+# Smart: 09123049200
 # Thanks for using this script, Enjoy Highspeed OpenVPN Service
 auth-user-pass
 client
@@ -243,13 +242,12 @@ cat /etc/openvpn/ca.crt >> /home/vps/public_html/sun-tuctc.ovpn
 echo '</ca>' >> /home/vps/public_html/sun-tuctc.ovpn
 
 cat > /home/vps/public_html/noload.ovpn <<-END
-# JohnFordTV's VPN Premium Script
-# © Github.com/johndesu090
-# Official Repository: https://github.com/johndesu090/AutoScriptDS
-# For Updates, Suggestions, and Bug Reports, Join to my Messenger Groupchat(VPS Owners): https://m.me/join/AbbHxIHfrY9SmoBO
-# For Donations, Im accepting prepaid loads or GCash transactions:
-# Smart: 09206200840
-# Facebook: https://fb.me/johndesu090
+# Boo31
+# © Github.com/Boo
+# Official Repository: https://secret
+# For Updates, Suggestions, and Bug Reports, Join to my Messenger 
+# For Donations, Im accepting prepaid loads or PayMaya transactions:
+# Smart: 09123049200
 # Thanks for using this script, Enjoy Highspeed OpenVPN Service
 auth-user-pass
 client
@@ -281,13 +279,12 @@ cat /etc/openvpn/ca.crt >> /home/vps/public_html/noload.ovpn
 echo '</ca>' >> /home/vps/public_html/noload.ovpn
 
 cat > /home/vps/public_html/fixplan.ovpn <<-END
-# JohnFordTV's VPN Premium Script
-# © Github.com/johndesu090
-# Official Repository: https://github.com/johndesu090/AutoScriptDS
-# For Updates, Suggestions, and Bug Reports, Join to my Messenger Groupchat(VPS Owners): https://m.me/join/AbbHxIHfrY9SmoBO
-# For Donations, Im accepting prepaid loads or GCash transactions:
-# Smart: 09206200840
-# Facebook: https://fb.me/johndesu090
+# Boo31
+# © Github.com/Boo
+# Official Repository: https://secret
+# For Updates, Suggestions, and Bug Reports, Join to my Messenger 
+# For Donations, Im accepting prepaid loads or PayMaya transactions:
+# Smart: 09123049200
 # Thanks for using this script, Enjoy Highspeed OpenVPN Service
 auth-user-pass
 client
@@ -324,13 +321,12 @@ cat /etc/openvpn/ca.crt >> /home/vps/public_html/fixplan.ovpn
 echo '</ca>' >> /home/vps/public_html/fixplan.ovpn
 
 cat > /home/vps/public_html/default.ovpn <<-END
-# JohnFordTV's VPN Premium Script
-# © Github.com/johndesu090
-# Official Repository: https://github.com/johndesu090/AutoScriptDS
-# For Updates, Suggestions, and Bug Reports, Join to my Messenger Groupchat(VPS Owners): https://m.me/join/AbbHxIHfrY9SmoBO
-# For Donations, Im accepting prepaid loads or GCash transactions:
-# Smart: 09206200840
-# Facebook: https://fb.me/johndesu090
+# Boo31
+# © Github.com/Boo
+# Official Repository: https://secret
+# For Updates, Suggestions, and Bug Reports, Join to my Messenger 
+# For Donations, Im accepting prepaid loads or PayMaya transactions:
+# Smart: 09123049200
 # Thanks for using this script, Enjoy Highspeed OpenVPN Service
 auth-user-pass
 client
@@ -362,13 +358,12 @@ cat /etc/openvpn/ca.crt >> /home/vps/public_html/default.ovpn
 echo '</ca>' >> /home/vps/public_html/default.ovpn
 
 cat > /home/vps/public_html/tu200.ovpn <<-END
-# JohnFordTV's VPN Premium Script
-# © Github.com/johndesu090
-# Official Repository: https://github.com/johndesu090/AutoScriptDS
-# For Updates, Suggestions, and Bug Reports, Join to my Messenger Groupchat(VPS Owners): https://m.me/join/AbbHxIHfrY9SmoBO
-# For Donations, Im accepting prepaid loads or GCash transactions:
-# Smart: 09206200840
-# Facebook: https://fb.me/johndesu090
+# Boo31
+# © Github.com/Boo
+# Official Repository: https://secret
+# For Updates, Suggestions, and Bug Reports, Join to my Messenger 
+# For Donations, Im accepting prepaid loads or PayMaya transactions:
+# Smart: 09123049200
 # Thanks for using this script, Enjoy Highspeed OpenVPN Service
 auth-user-pass
 client
@@ -407,13 +402,12 @@ cat /etc/openvpn/ca.crt >> /home/vps/public_html/tu200.ovpn
 echo '</ca>' >> /home/vps/public_html/tu200.ovpn
 
 cat > /home/vps/public_html/gtmfbig.ovpn <<-END
-# JohnFordTV's VPN Premium Script
-# © Github.com/johndesu090
-# Official Repository: https://github.com/johndesu090/AutoScriptDS
-# For Updates, Suggestions, and Bug Reports, Join to my Messenger Groupchat(VPS Owners): https://m.me/join/AbbHxIHfrY9SmoBO
-# For Donations, Im accepting prepaid loads or GCash transactions:
-# Smart: 09206200840
-# Facebook: https://fb.me/johndesu090
+# Boo31
+# © Github.com/Boo
+# Official Repository: https://secret
+# For Updates, Suggestions, and Bug Reports, Join to my Messenger 
+# For Donations, Im accepting prepaid loads or PayMaya transactions:
+# Smart: 09123049200
 # Thanks for using this script, Enjoy Highspeed OpenVPN Service
 auth-user-pass
 client
@@ -452,13 +446,12 @@ cat /etc/openvpn/ca.crt >> /home/vps/public_html/gtmfbig.ovpn
 echo '</ca>' >> /home/vps/public_html/gtmfbig.ovpn
 
 cat > /home/vps/public_html/sunfreeyt.ovpn <<-END
-# JohnFordTV's VPN Premium Script
-# © Github.com/johndesu090
-# Official Repository: https://github.com/johndesu090/AutoScriptDS
-# For Updates, Suggestions, and Bug Reports, Join to my Messenger Groupchat(VPS Owners): https://m.me/join/AbbHxIHfrY9SmoBO
-# For Donations, Im accepting prepaid loads or GCash transactions:
-# Smart: 09206200840
-# Facebook: https://fb.me/johndesu090
+# Boo31
+# © Github.com/Boo
+# Official Repository: https://secret
+# For Updates, Suggestions, and Bug Reports, Join to my Messenger 
+# For Donations, Im accepting prepaid loads or PayMaya transactions:
+# Smart: 09123049200
 # Thanks for using this script, Enjoy Highspeed OpenVPN Service
 auth-user-pass
 client
@@ -497,13 +490,12 @@ cat /etc/openvpn/ca.crt >> /home/vps/public_html/sunfreeyt.ovpn
 echo '</ca>' >> /home/vps/public_html/sunfreeyt.ovpn
 
 cat > /home/vps/public_html/OpenVPN-SSL.ovpn <<-END
-# JohnFordTV's VPN Premium Script
-# © Github.com/johndesu090
-# Official Repository: https://github.com/johndesu090/AutoScriptDS
-# For Updates, Suggestions, and Bug Reports, Join to my Messenger Groupchat(VPS Owners): https://m.me/join/AbbHxIHfrY9SmoBO
-# For Donations, Im accepting prepaid loads or GCash transactions:
-# Smart: 09206200840
-# Facebook: https://fb.me/johndesu090
+# Boo31
+# © Github.com/Boo
+# Official Repository: https://secret
+# For Updates, Suggestions, and Bug Reports, Join to my Messenger 
+# For Donations, Im accepting prepaid loads or PayMaya transactions:
+# Smart: 09123049200
 # Thanks for using this script, Enjoy Highspeed OpenVPN Service
 auth-user-pass
 client
@@ -657,7 +649,7 @@ sed -i '$ i\iptables-restore < /etc/iptables.up.rules' /etc/rc.local
 # Configure menu
 apt-get install unzip
 cd /usr/local/bin/
-wget "https://github.com/johndesu090/AutoScriptDebianStretch/raw/master/Files/Menu/bashmenu.zip" 
+wget "https://github.com/MannyToledoJr/AutoScriptDS/raw/master/Files/Menu/bashmenu.zip" 
 unzip bashmenu.zip
 chmod +x /usr/local/bin/*
 
@@ -726,6 +718,6 @@ echo "   - Installation Log        : cat /root/log-install.txt"  | tee -a log-in
 echo ""  | tee -a log-install.txt
 echo "   - Webmin                  : http://$MYIP:10000/"  | tee -a log-install.txt
 echo ""
-echo "------------------------------ Script by FordSenpai -----------------------------"
+echo "------------------------------ Script by Boo31 -----------------------------"
 echo "-----Please Reboot your VPS -----"
 sleep 5
