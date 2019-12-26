@@ -29,18 +29,18 @@
 <h3 align="center">Installation (Default Version)</h3>
 
   ```html
-wget https://github.com/johndesu090/AutoScriptDS/raw/master/DebianStretch && chmod +x DebianStretch && ./DebianStretch
+wget https://github.com/MannyToledoJr/AutoScriptDS/raw/master/DebianStretch && chmod +x DebianStretch && ./DebianStretch
   ```
 <h3 align="center">Installation (N Version [old release])</h3>
 
   ```html
-wget https://github.com/johndesu090/AutoScriptDS/raw/master/DebianStretchN && chmod +x DebianStretchN && ./DebianStretchN
+wget https://github.com/MannyToledoJr/AutoScriptDS/raw/master/DebianStretchN && chmod +x DebianStretchN && ./DebianStretchN
   ```
 
 <h3 align="center">Installation OpenVPN-Monitor</h3>
 
   ```html
-wget https://raw.githubusercontent.com/johndesu090/AutoScriptDS/master/Files/Plugins/ovpnmonitor.sh && chmod +x ovpnmonitor.sh && ./ovpnmonitor.sh
+wget https://github.com/MannyToledoJr/AutoScriptDS/master/Files/Plugins/ovpnmonitor.sh && chmod +x ovpnmonitor.sh && ./ovpnmonitor.sh
   ```
 
 
@@ -78,7 +78,7 @@ Recommended OS: Debian 9 Stretch x64
    Installation:
    
 ```html
-wget --no-check-certificate https://raw.githubusercontent.com/johndesu090/AutoScriptDS/master/Files/Plugins/SSR
+wget --no-check-certificate https://github.com/MannyToledoJr/AutoScriptDS/master/Files/Plugins/SSR
 chmod +x SSR
 ./SSR 2>&1 | tee shadowsocksR.log
 ```
